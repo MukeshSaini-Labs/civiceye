@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { adminClient } from '@/sanity/lib/client';

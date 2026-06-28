@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import {GoogleGenAI, Type} from '@google/genai';
 import {NextRequest, NextResponse} from 'next/server';
 import {adminClient} from '../../../sanity/lib/client';

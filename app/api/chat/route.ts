@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { SYSTEM_PROMPT } from '@/lib/ai/prompts';
 import { adminClient } from '@/sanity/lib/client';
