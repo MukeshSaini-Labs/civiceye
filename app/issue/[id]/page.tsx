@@ -10,7 +10,8 @@ import EvidenceGallery from '@/components/EvidenceGallery';
 const builder = createImageUrlBuilder({ projectId, dataset });
 function urlFor(source: any) { return builder.image(source); }
 
-export default async function IssuePage({ params }: { params: { id: string } }) {
+export default async function IssuePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   // ⚠️ Explicitly exclude PII — reporterEmail and reporterPhone are NEVER sent to the client
   const query = `*[_type == "issue" && _id == $id][0] {
     _id, _createdAt, title, category, severity, triageTier, status,
@@ -23,14 +24,14 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
     aiAnalysis, verificationCount, reporterId,
     resolvedAt, resolutionNote
   }`;
-  const issue = await client.fetch(query, { id: params.id }, { next: { revalidate: 0 } });
+  const issue = await client.fetch(query, { id }, { next: { revalidate: 0 } });
 
   if (!issue) {
     notFound();
   }
 
   const bountyQuery = `*[_type == "bounty" && issue._ref == $id][0]`;
-  const bounty = await client.fetch(bountyQuery, { id: params.id }, { next: { revalidate: 0 } });
+  const bounty = await client.fetch(bountyQuery, { id }, { next: { revalidate: 0 } });
 
   const acceptedBidQuery = `*[_type == "bid" && bounty._ref == $bountyId && status == "Accepted"][0]`;
   const acceptedBid = bounty ? await client.fetch(acceptedBidQuery, { bountyId: bounty._id }, { next: { revalidate: 0 } }) : null;
@@ -45,7 +46,7 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
     "videoCompleteUrl": videoComplete.asset->url,
     physicalReviewStatus
   }`;
-  const resolutionData = await client.fetch(resolutionQuery, { id: params.id }, { next: { revalidate: 0 } });
+  const resolutionData = await client.fetch(resolutionQuery, { id }, { next: { revalidate: 0 } });
 
   let aiData: any = {};
   try {
