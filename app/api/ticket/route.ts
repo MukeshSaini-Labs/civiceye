@@ -54,7 +54,7 @@ export async function POST(req: Request) {
 
     // Send emails simultaneously via Resend SDK
     const { Resend } = await import('resend');
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_for_build');
 
     const sendEmail = async (to: string, subject: string, html: string) => {
       if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 're_tumhari_key_yahan_aayegi') {

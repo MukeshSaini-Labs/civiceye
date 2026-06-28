@@ -3,7 +3,7 @@ import { client } from '@/sanity/lib/client';
 import { GoogleGenAI } from '@google/genai';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_for_build');
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,

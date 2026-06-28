@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { adminClient } from '@/sanity/lib/client';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_for_build');
 
 export async function POST(req: NextRequest) {
   try {
