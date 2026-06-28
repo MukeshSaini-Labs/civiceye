@@ -1,0 +1,2183 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "siteName",
+        "type": "string"
+      },
+      {
+        "name": "tagline",
+        "type": "string"
+      },
+      {
+        "name": "footerText",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "logo",
+        "type": "image"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "platform",
+                "type": "string"
+              },
+              {
+                "validation": [
+                  {
+                    "level": "error",
+                    "rules": [
+                      {
+                        "flag": "uri",
+                        "constraint": {
+                          "options": {
+                            "scheme": [
+                              "/^http$/",
+                              "/^https$/"
+                            ],
+                            "allowRelative": false,
+                            "relativeOnly": false,
+                            "allowCredentials": false
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "name": "url",
+                "type": "url",
+                "title": "URL"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "socialLinks",
+        "type": "array"
+      }
+    ],
+    "name": "siteSettings",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "description": "The small text badge above the main heading (e.g. LIVE • AI VISION MODEL ACTIVE)",
+        "name": "badgeText",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "mainHeading",
+        "type": "string"
+      },
+      {
+        "description": "The part of the heading that is styled differently (gradient)",
+        "name": "highlightedHeadingText",
+        "type": "string"
+      },
+      {
+        "name": "subheading",
+        "type": "text"
+      }
+    ],
+    "name": "heroSection",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "label",
+                "type": "string"
+              },
+              {
+                "name": "value",
+                "type": "string"
+              },
+              {
+                "name": "trend",
+                "type": "string"
+              },
+              {
+                "initialValue": true,
+                "name": "trendUp",
+                "type": "boolean",
+                "title": "Trend Up?"
+              },
+              {
+                "description": "e.g., CheckCircle, Users, Clock, Leaf",
+                "name": "iconName",
+                "type": "string",
+                "title": "Icon Name (Lucide)"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "stats",
+        "type": "array",
+        "title": "Global Statistics"
+      }
+    ],
+    "name": "statsSection",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string",
+        "title": "Issue Title"
+      },
+      {
+        "description": "Firebase UID of the user who reported this issue",
+        "name": "reporterUid",
+        "type": "string",
+        "title": "Reporter Auth ID"
+      },
+      {
+        "options": {
+          "list": [
+            "Infrastructure",
+            "Waste Management",
+            "Utilities",
+            "Public Safety",
+            "Other"
+          ]
+        },
+        "name": "category",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 10
+              }
+            ]
+          }
+        ],
+        "name": "severity",
+        "type": "number",
+        "title": "Severity Level"
+      },
+      {
+        "options": {
+          "list": [
+            "Critical",
+            "Elevated",
+            "Standard"
+          ]
+        },
+        "initialValue": "Elevated",
+        "name": "triageTier",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            "Pending",
+            "Accepted",
+            "Rejected"
+          ]
+        },
+        "initialValue": "Pending",
+        "description": "Accept or Reject this reported issue for public listing & bidding.",
+        "name": "adminApproval",
+        "type": "string",
+        "title": "Admin Issue Approval"
+      },
+      {
+        "options": {
+          "list": [
+            "Reported",
+            "Verified",
+            "In progress",
+            "In review",
+            "Resolved",
+            "Rejected"
+          ]
+        },
+        "initialValue": "Reported",
+        "name": "status",
+        "type": "string"
+      },
+      {
+        "name": "location",
+        "type": "string",
+        "title": "Location / Full Address"
+      },
+      {
+        "name": "streetAddress",
+        "type": "string"
+      },
+      {
+        "name": "city",
+        "type": "string"
+      },
+      {
+        "name": "state",
+        "type": "string"
+      },
+      {
+        "name": "country",
+        "type": "string"
+      },
+      {
+        "name": "latitude",
+        "type": "number"
+      },
+      {
+        "name": "longitude",
+        "type": "number"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "originalImage",
+        "type": "image",
+        "title": "Original Evidence Image"
+      },
+      {
+        "options": {
+          "accept": "video/*"
+        },
+        "description": "Video evidence uploaded by citizen reporter",
+        "name": "originalVideo",
+        "type": "file",
+        "title": "Original Evidence Video"
+      },
+      {
+        "description": "Auto-transcribed speech from video report using Web Speech API",
+        "name": "speechTranscript",
+        "type": "text",
+        "title": "Speech Transcript (from video)"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "resolutionImage",
+        "type": "image",
+        "title": "Resolution Evidence Image"
+      },
+      {
+        "name": "resolvedAt",
+        "type": "datetime",
+        "title": "Resolution Date & Time"
+      },
+      {
+        "name": "resolutionNote",
+        "type": "text",
+        "title": "Resolution Note / Action Taken"
+      },
+      {
+        "description": "Stored JSON of the AI analysis",
+        "name": "aiAnalysis",
+        "type": "text",
+        "title": "AI Analysis JSON"
+      },
+      {
+        "initialValue": 0,
+        "description": "Number of citizens who verified this hazard",
+        "name": "verificationCount",
+        "type": "number"
+      },
+      {
+        "name": "reporterId",
+        "type": "string",
+        "title": "Reporter Name"
+      },
+      {
+        "description": "⚠️ Private — never display on public pages",
+        "name": "reporterEmail",
+        "type": "string"
+      },
+      {
+        "description": "⚠️ Private — never display on public pages",
+        "name": "reporterPhone",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "reporterImage",
+        "type": "image",
+        "title": "Reporter Selfie / Image"
+      }
+    ],
+    "name": "issue",
+    "type": "document",
+    "title": "Reported Issue"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "e.g. Critical, Elevated, Standard",
+        "name": "name",
+        "type": "string",
+        "title": "Category Name"
+      },
+      {
+        "description": "e.g. 4h SLA, 24h SLA, 72h SLA",
+        "name": "slaText",
+        "type": "string",
+        "title": "SLA Text"
+      },
+      {
+        "description": "Hex color code for map pins and badges. e.g. #ef4444",
+        "name": "colorHex",
+        "type": "string",
+        "title": "Color (Hex)"
+      },
+      {
+        "initialValue": 3,
+        "description": "1 = highest priority displayed first",
+        "name": "priority",
+        "type": "number",
+        "title": "Priority Order"
+      },
+      {
+        "description": "Brief description of what qualifies as this category",
+        "name": "description",
+        "type": "text"
+      }
+    ],
+    "name": "triageCategory",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "name",
+        "type": "string",
+        "title": "Citizen Name"
+      },
+      {
+        "description": "Internal reference to Firebase Auth",
+        "name": "uid",
+        "type": "string",
+        "title": "Firebase UID"
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "title": "Email Address"
+      },
+      {
+        "description": "Physical address provided by the citizen",
+        "name": "address",
+        "type": "text",
+        "title": "Complete Address"
+      },
+      {
+        "initialValue": 0,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 0
+              }
+            ]
+          }
+        ],
+        "name": "score",
+        "type": "number",
+        "title": "Total XP Score"
+      },
+      {
+        "initialValue": 0,
+        "description": "Each report = +10 XP",
+        "name": "reportsCount",
+        "type": "number",
+        "title": "Reports Submitted"
+      },
+      {
+        "initialValue": 0,
+        "description": "Each verification = +5 XP",
+        "name": "verifyCount",
+        "type": "number",
+        "title": "Verifications Done"
+      },
+      {
+        "initialValue": 0,
+        "description": "Each resolved issue = +20 XP",
+        "name": "resolvedCount",
+        "type": "number",
+        "title": "Issues Helped Resolve"
+      },
+      {
+        "options": {
+          "list": [
+            "City Guardian",
+            "Urban Hero",
+            "Civic Sentinel",
+            "Street Warden",
+            "Hazard Hunter",
+            "Community Champion",
+            "Infrastructure Defender",
+            "Neighborhood Protector",
+            "Public Safety Officer",
+            "Rookie Reporter"
+          ]
+        },
+        "description": "e.g. City Guardian, Urban Hero, Civic Sentinel",
+        "name": "badge",
+        "type": "string",
+        "title": "Badge / Title"
+      },
+      {
+        "name": "city",
+        "type": "string"
+      },
+      {
+        "name": "joinedAt",
+        "type": "datetime"
+      },
+      {
+        "initialValue": false,
+        "name": "isUser",
+        "type": "boolean",
+        "title": "Highlight as Current User?"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "avatar",
+        "type": "image",
+        "title": "Citizen Avatar"
+      }
+    ],
+    "name": "userAccount",
+    "type": "document",
+    "title": "User Accounts"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string",
+        "title": "Story Title"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ]
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "summary",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "level": "error",
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "of": [],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "type": "block"
+          },
+          {
+            "type": "image"
+          }
+        ],
+        "name": "content",
+        "type": "array"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "featuredImage",
+        "type": "image"
+      },
+      {
+        "name": "date",
+        "type": "datetime",
+        "title": "Published Date"
+      },
+      {
+        "name": "category",
+        "type": "string",
+        "title": "Category (e.g. infrastructure, roadways, safety)"
+      },
+      {
+        "name": "resolutionTime",
+        "type": "string",
+        "title": "Resolution Time (e.g. 4 Hours)"
+      }
+    ],
+    "name": "impactStory",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "stepNumber",
+        "type": "number"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "name": "iconName",
+        "type": "string",
+        "title": "Icon Name (Lucide)"
+      }
+    ],
+    "name": "howItWorksStep",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ]
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "level": "error",
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "of": [],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "type": "block"
+          },
+          {
+            "type": "image"
+          }
+        ],
+        "name": "content",
+        "type": "array"
+      },
+      {
+        "name": "author",
+        "type": "string"
+      },
+      {
+        "name": "date",
+        "type": "datetime",
+        "title": "Published Date"
+      }
+    ],
+    "name": "newsPost",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Page Title"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "slug",
+        "type": "slug",
+        "title": "URL Slug"
+      },
+      {
+        "rows": 3,
+        "name": "subtitle",
+        "type": "text",
+        "title": "Subtitle / Description"
+      },
+      {
+        "of": [
+          {
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "level": "error",
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "of": [],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "type": "block"
+          }
+        ],
+        "name": "content",
+        "type": "array",
+        "title": "Page Content"
+      }
+    ],
+    "name": "genericPage",
+    "type": "document",
+    "title": "Generic Pages"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "email",
+        "type": "string",
+        "title": "Email Address"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Active",
+              "value": "active"
+            },
+            {
+              "title": "Unsubscribed",
+              "value": "unsubscribed"
+            }
+          ]
+        },
+        "initialValue": "active",
+        "name": "status",
+        "type": "string"
+      },
+      {
+        "name": "subscribedAt",
+        "type": "datetime"
+      }
+    ],
+    "name": "subscriber",
+    "type": "document",
+    "title": "Newsletter Subscribers"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "Mukesh Saini",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "name",
+        "type": "string",
+        "title": "Founder Name"
+      },
+      {
+        "initialValue": "Creator & Lead Architect",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "role",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "image",
+        "type": "image",
+        "title": "Founder Photo"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "level": "error",
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "of": [],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "type": "block"
+          }
+        ],
+        "name": "message",
+        "type": "array",
+        "title": "Message / Vision"
+      },
+      {
+        "description": "Leave blank if you do not want the icon to appear.",
+        "fields": [
+          {
+            "validation": [
+              {
+                "level": "error",
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "name": "linkedin",
+            "type": "url",
+            "title": "LinkedIn URL"
+          },
+          {
+            "validation": [
+              {
+                "level": "error",
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "name": "twitter",
+            "type": "url",
+            "title": "X (Twitter) URL"
+          },
+          {
+            "validation": [
+              {
+                "level": "error",
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "name": "youtube",
+            "type": "url",
+            "title": "YouTube URL"
+          },
+          {
+            "validation": [
+              {
+                "level": "error",
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "name": "instagram",
+            "type": "url",
+            "title": "Instagram URL"
+          },
+          {
+            "validation": [
+              {
+                "level": "error",
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "name": "facebook",
+            "type": "url",
+            "title": "Facebook URL"
+          }
+        ],
+        "name": "socialLinks",
+        "type": "object",
+        "title": "Social Media Links"
+      }
+    ],
+    "name": "founderMessage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "ticketId",
+        "type": "string",
+        "title": "Ticket ID"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "title": "User Name"
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "title": "User Email"
+      },
+      {
+        "name": "issue",
+        "type": "text",
+        "title": "Issue Description"
+      },
+      {
+        "options": {
+          "list": [
+            "Open",
+            "In Progress",
+            "Resolved"
+          ]
+        },
+        "initialValue": "Open",
+        "name": "status",
+        "type": "string"
+      },
+      {
+        "description": "Leave a reply here. When the user tracks their ticket ID via AI, they will see this message.",
+        "name": "adminReply",
+        "type": "text",
+        "title": "Admin Reply / Notes (Visible to User in Tracking)"
+      },
+      {
+        "name": "createdAt",
+        "type": "datetime"
+      }
+    ],
+    "name": "supportTicket",
+    "type": "document",
+    "title": "Support Tickets"
+  },
+  {
+    "fields": [
+      {
+        "name": "referenceId",
+        "type": "string",
+        "title": "Reference ID"
+      },
+      {
+        "name": "fullName",
+        "type": "string"
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "title": "Email Address"
+      },
+      {
+        "name": "phone",
+        "type": "string",
+        "title": "Mobile Number"
+      },
+      {
+        "name": "address",
+        "type": "string",
+        "title": "Full Address"
+      },
+      {
+        "options": {
+          "list": [
+            "Frontend Engineer",
+            "AI/ML Developer",
+            "UI/UX Designer",
+            "Field Operations",
+            "Legal Advisor",
+            "Social Media Manager",
+            "NGO Partner",
+            "Marketing Lead",
+            "General Volunteer"
+          ]
+        },
+        "name": "role",
+        "type": "string",
+        "title": "Desired Role"
+      },
+      {
+        "name": "message",
+        "type": "text",
+        "title": "Message / Why join us?"
+      },
+      {
+        "options": {
+          "list": [
+            "Pending Review",
+            "Interviewing",
+            "Accepted",
+            "Rejected"
+          ]
+        },
+        "initialValue": "Pending Review",
+        "name": "status",
+        "type": "string",
+        "title": "Application Status"
+      },
+      {
+        "description": "Leave a reply or update here (e.g. interview scheduled). When the user tracks their Application ID via AI, they will see this message.",
+        "name": "adminReply",
+        "type": "text",
+        "title": "Admin Reply / Update (Visible to User in Tracking)"
+      },
+      {
+        "name": "createdAt",
+        "type": "datetime"
+      }
+    ],
+    "name": "joinRequest",
+    "type": "document",
+    "title": "Mission Join Request"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "to": [
+          {
+            "type": "issue"
+          }
+        ],
+        "name": "issue",
+        "type": "reference",
+        "title": "Linked Hazard/Issue"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ]
+          }
+        ],
+        "description": "AI-determined reward for fixing this issue.",
+        "name": "bountyAmount",
+        "type": "number",
+        "title": "Bounty Reward (INR)"
+      },
+      {
+        "description": "The exact engineering details generated by Gemini AI.",
+        "fields": [
+          {
+            "name": "projectTitle",
+            "type": "string"
+          },
+          {
+            "name": "contractorType",
+            "type": "string"
+          },
+          {
+            "name": "estimatedHours",
+            "type": "string"
+          },
+          {
+            "name": "estimatedCostINR",
+            "type": "number"
+          },
+          {
+            "of": [
+              {
+                "type": "string"
+              }
+            ],
+            "name": "materialsNeeded",
+            "type": "array"
+          },
+          {
+            "of": [
+              {
+                "type": "string"
+              }
+            ],
+            "name": "workforceRequired",
+            "type": "array"
+          },
+          {
+            "name": "repairStrategy",
+            "type": "text"
+          },
+          {
+            "of": [
+              {
+                "type": "string"
+              }
+            ],
+            "name": "riskFactors",
+            "type": "array"
+          }
+        ],
+        "name": "tenderBlueprint",
+        "type": "object",
+        "title": "Tender Blueprint (AI Generated)"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Open",
+              "value": "Open"
+            },
+            {
+              "title": "Claimed",
+              "value": "Claimed"
+            },
+            {
+              "title": "Verified",
+              "value": "Verified"
+            },
+            {
+              "title": "Paid",
+              "value": "Paid"
+            }
+          ]
+        },
+        "initialValue": "Open",
+        "name": "status",
+        "type": "string",
+        "title": "Bounty Status"
+      },
+      {
+        "name": "contractorId",
+        "type": "string",
+        "title": "Claimed By (Contractor ID)"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "completionImage",
+        "type": "image",
+        "title": "Completion Proof Image"
+      },
+      {
+        "name": "aiVerificationScore",
+        "type": "number",
+        "title": "AI Verification Score (1-100)"
+      }
+    ],
+    "name": "bounty",
+    "type": "document",
+    "title": "Civic Bounty"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "to": [
+          {
+            "type": "bounty"
+          }
+        ],
+        "name": "bounty",
+        "type": "reference",
+        "title": "Linked Bounty"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "contractorName",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "contractorEmail",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ]
+          }
+        ],
+        "description": "The custom budget proposed by the contractor.",
+        "name": "bidAmount",
+        "type": "number",
+        "title": "Bid Amount (INR)"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ]
+          }
+        ],
+        "name": "estimatedDays",
+        "type": "number",
+        "title": "Estimated Days to Complete"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "What materials will be used and their estimated cost.",
+        "name": "materialDetails",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "Breakdown of labor wages.",
+        "name": "wageDetails",
+        "type": "text"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Pending",
+              "value": "Pending"
+            },
+            {
+              "title": "Accepted",
+              "value": "Accepted"
+            },
+            {
+              "title": "Rejected",
+              "value": "Rejected"
+            }
+          ]
+        },
+        "initialValue": "Pending",
+        "name": "status",
+        "type": "string",
+        "title": "Bid Status"
+      }
+    ],
+    "name": "bid",
+    "type": "document",
+    "title": "Contractor Bids"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "companyName",
+        "type": "string",
+        "title": "Company / Agency Name"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "fullName",
+        "type": "string",
+        "title": "Contractor Full Name"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "email",
+        "type": "string",
+        "title": "Email ID"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "mobile",
+        "type": "string",
+        "title": "Mobile Number"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "gstNumber",
+        "type": "string",
+        "title": "GST Number"
+      },
+      {
+        "name": "registrationNumber",
+        "type": "string",
+        "title": "Company Registration Number (Optional)"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "address",
+        "type": "text",
+        "title": "Complete Address"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Pending Review",
+              "value": "pending"
+            },
+            {
+              "title": "Approved",
+              "value": "approved"
+            },
+            {
+              "title": "Rejected",
+              "value": "rejected"
+            }
+          ]
+        },
+        "initialValue": "pending",
+        "name": "verificationStatus",
+        "type": "string"
+      }
+    ],
+    "name": "contractor",
+    "type": "document",
+    "title": "Contractor Accounts"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "to": [
+          {
+            "type": "issue"
+          }
+        ],
+        "name": "issue",
+        "type": "reference",
+        "title": "Linked Issue"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "contractorEmail",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "resolutionImage",
+        "type": "image",
+        "title": "Resolution Evidence (After Photo)"
+      },
+      {
+        "description": "The raw report generated by the AI comparing before and after photos.",
+        "name": "forensicReport",
+        "type": "text",
+        "title": "AI Forensic Report"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 10
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "options": {
+              "accept": "image/*,application/pdf"
+            },
+            "type": "file"
+          }
+        ],
+        "name": "bills",
+        "type": "array",
+        "title": "Material & Labor Bills"
+      },
+      {
+        "options": {
+          "accept": "video/*"
+        },
+        "name": "videoStart",
+        "type": "file",
+        "title": "Video 1: Start of Work"
+      },
+      {
+        "options": {
+          "accept": "video/*"
+        },
+        "name": "videoProgress",
+        "type": "file",
+        "title": "Video 2: Work in Progress"
+      },
+      {
+        "name": "workerLeftNote2",
+        "type": "text",
+        "title": "Worker Left Reason (Stage 2 - Progress)"
+      },
+      {
+        "options": {
+          "accept": "video/*"
+        },
+        "name": "videoContinued",
+        "type": "file",
+        "title": "Video 3: Continued Work"
+      },
+      {
+        "name": "workerLeftNote3",
+        "type": "text",
+        "title": "Worker Left Reason (Stage 3 - Continued)"
+      },
+      {
+        "options": {
+          "accept": "video/*"
+        },
+        "name": "videoComplete",
+        "type": "file",
+        "title": "Video 4: Completed Work"
+      },
+      {
+        "name": "workerLeftNote4",
+        "type": "text",
+        "title": "Worker Left Reason (Stage 4 - Completed)"
+      },
+      {
+        "name": "aiVerificationScore",
+        "type": "number",
+        "title": "AI Confidence Score (%)"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Pending Admin Review",
+              "value": "Pending"
+            },
+            {
+              "title": "Verified",
+              "value": "Verified"
+            },
+            {
+              "title": "Rejected",
+              "value": "Rejected"
+            }
+          ]
+        },
+        "initialValue": "Pending",
+        "name": "status",
+        "type": "string",
+        "title": "Verification Status"
+      },
+      {
+        "options": {
+          "list": [
+            "Review Pending",
+            "Citizen Verified (Issue Resolved on Site)",
+            "Citizen Rejected (Issue Not Resolved)",
+            "Admin Overruled Citizen Review"
+          ]
+        },
+        "description": "Select the outcome if a physical citizen review was conducted.",
+        "name": "physicalReviewStatus",
+        "type": "string",
+        "title": "Physical Review by Citizen"
+      },
+      {
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "name": "month",
+        "type": "string"
+      },
+      {
+        "name": "day",
+        "type": "string"
+      },
+      {
+        "name": "dateResolved",
+        "type": "datetime",
+        "title": "Date Submitted"
+      }
+    ],
+    "name": "resolution",
+    "type": "document",
+    "title": "Contractor Resolutions"
+  }
+]

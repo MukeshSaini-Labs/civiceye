@@ -1,0 +1,6 @@
+{
+  "name": "Community Hero - Autonomous City Management",
+  "description": "An autonomous AI agent blueprint for municipal infrastructure reporting and repair auto-verification using Gemini.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
