@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState, FormEvent, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Search, MapPin, Loader2, Target, CloudRain, ThermometerSun, Wind, Droplets, Layers, Satellite, Eye, Activity, ChevronDown, Globe, Maximize, Minimize } from 'lucide-react';
+import { Search, MapPin, Loader2, Target, CloudRain, ThermometerSun, Wind, Droplets, Layers, Satellite, Eye, Activity, ChevronDown, Globe, Maximize, Minimize, Navigation } from 'lucide-react';
+import NavigationOverlay from './NavigationOverlay';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({ iconRetinaUrl: '/marker-icon-2x.png', iconUrl: '/marker-icon.png', shadowUrl: '/marker-shadow.png' });
@@ -66,19 +67,33 @@ function DynamicTileLayer({ mapType, activeOverlay }: { mapType: keyof typeof MA
   return (
     <>
       <TileLayer key={layer.url} url={layer.url} attribution={layer.attr} noWrap={true} />
-      {overlay && <TileLayer key={overlay.url} url={overlay.url} opacity={0.7} noWrap={true} />}
+      {overlay && <TileLayer key={overlay.url} url={overlay.url} opacity={0.8} className="mix-blend-multiply" noWrap={true} />}
     </>
   );
 }
 
-function MapEventsHandler({ onMove }: { onMove: (lat: number, lng: number) => void }) {
-  useMapEvents({ moveend: (e) => { const c = e.target.getCenter(); onMove(c.lat, c.lng); } });
+function MapEventsHandler({ onMove, onClick }: { onMove: (lat: number, lng: number) => void, onClick: (lat: number, lng: number) => void }) {
+  useMapEvents({ 
+    moveend: (e) => { const c = e.target.getCenter(); onMove(c.lat, c.lng); },
+    click: (e) => { onClick(e.latlng.lat, e.latlng.lng); }
+  });
   return null;
 }
 
 function FlyToController({ target }: { target: [number, number] | null }) {
   const map = useMap();
   useEffect(() => { if (target) map.flyTo(target, 15, { duration: 2 }); }, [target, map]);
+  return null;
+}
+
+function RouteBoundsController({ points }: { points: [number, number][] }) {
+  const map = useMap();
+  useEffect(() => {
+    if (points.length > 1) {
+      const bounds = L.latLngBounds(points);
+      map.flyToBounds(bounds, { padding: [50, 50], duration: 1.5 });
+    }
+  }, [points, map]);
   return null;
 }
 
@@ -109,13 +124,19 @@ export default function MapComponent() {
   const [mapType, setMapType] = useState<keyof typeof MAP_LAYERS>('dark');
   const [activeOverlay, setActiveOverlay] = useState<keyof typeof OVERLAYS | null>(null);
   const [showLayerPanel, setShowLayerPanel] = useState(false);
+  const [showNavPanel, setShowNavPanel] = useState(false);
   const [panelPos, setPanelPos] = useState({ top: 0, right: 0 });
   const [streetView, setStreetView] = useState<{ lat: number; lng: number } | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [navRoutes, setNavRoutes] = useState<[number, number][][]>([]);
+  const [activeNavRoute, setActiveNavRoute] = useState(0);
   const layerPanelRef = useRef<HTMLDivElement>(null);
   const mobileLayerPanelRef = useRef<HTMLDivElement>(null);
   const layerBtnRef = useRef<HTMLButtonElement>(null);
+  const navPanelRef = useRef<HTMLDivElement>(null);
+  const mobileNavPanelRef = useRef<HTMLDivElement>(null);
+  const navBtnRef = useRef<HTMLButtonElement>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   // Default to Connaught Place, New Delhi (guaranteed 360 street view coverage)
   const defaultCenter: [number, number] = [28.6328, 77.2197];
@@ -126,6 +147,16 @@ export default function MapComponent() {
       setPanelPos({ top: rect.bottom + 8, right: window.innerWidth - rect.right });
     }
     setShowLayerPanel(p => !p);
+    setShowNavPanel(false);
+  };
+
+  const openNavPanel = () => {
+    if (navBtnRef.current) {
+      const rect = navBtnRef.current.getBoundingClientRect();
+      setPanelPos({ top: rect.bottom + 8, right: window.innerWidth - rect.right });
+    }
+    setShowNavPanel(p => !p);
+    setShowLayerPanel(false);
   };
 
   const toggleFullscreen = () => {
@@ -219,6 +250,13 @@ export default function MapComponent() {
     fetchAqi(lat, lng);
   };
 
+  const handleMapClick = (lat: number, lng: number) => {
+    setFlyTarget([lat, lng]);
+    if (streetView) {
+      setStreetView({ lat, lng });
+    }
+  };
+
   useEffect(() => {
     fetchRealIssues();
     fetchWeather(defaultCenter[0], defaultCenter[1]);
@@ -229,10 +267,15 @@ export default function MapComponent() {
   // Close layer panel on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => { 
-      if (layerBtnRef.current?.contains(e.target as Node)) return;
-      if (layerPanelRef.current?.contains(e.target as Node)) return;
-      if (mobileLayerPanelRef.current?.contains(e.target as Node)) return;
-      setShowLayerPanel(false); 
+      const target = e.target as Node;
+      let closeLayer = true;
+      let closeNav = true;
+
+      if (layerBtnRef.current?.contains(target) || layerPanelRef.current?.contains(target) || mobileLayerPanelRef.current?.contains(target)) closeLayer = false;
+      if (navBtnRef.current?.contains(target) || navPanelRef.current?.contains(target) || mobileNavPanelRef.current?.contains(target)) closeNav = false;
+
+      if (closeLayer) setShowLayerPanel(false); 
+      if (closeNav) setShowNavPanel(false);
     };
     document.addEventListener('mousedown', handler);
     
@@ -351,6 +394,40 @@ export default function MapComponent() {
       `}</style>
 
       {/* ── MOBILE BOTTOM SHEET LAYER PANEL ── */}
+      {showNavPanel && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-[9998] sm:hidden" onClick={() => setShowNavPanel(false)} />
+          <div ref={mobileNavPanelRef} className="sm:hidden fixed bottom-0 left-0 right-0 z-[9999] bg-[#0a0f1c] border-t border-white/10 rounded-t-3xl shadow-2xl p-5 max-h-[85vh] overflow-y-auto">
+            <div className="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4" />
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-white font-bold text-sm tracking-wide">Route Navigation</span>
+              <button onClick={() => setShowNavPanel(false)} className="text-slate-400 hover:text-white p-1"><ChevronDown className="w-5 h-5" /></button>
+            </div>
+            <NavigationOverlay 
+              currentLocation={userLocation || defaultCenter} 
+              routes={navRoutes}
+              activeRouteIndex={activeNavRoute}
+              onRoutesUpdate={(routes) => setNavRoutes(routes)}
+              onActiveIndexChange={(idx) => setActiveNavRoute(idx)}
+            />
+          </div>
+          {/* Desktop dropdown */}
+          <div
+            ref={navPanelRef}
+            style={{ position: 'fixed', top: panelPos.top, right: Math.max(panelPos.right, 8), zIndex: 9999 }}
+            className="hidden sm:block w-80 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-4"
+          >
+            <NavigationOverlay 
+              currentLocation={userLocation || defaultCenter} 
+              routes={navRoutes}
+              activeRouteIndex={activeNavRoute}
+              onRoutesUpdate={(routes) => setNavRoutes(routes)}
+              onActiveIndexChange={(idx) => setActiveNavRoute(idx)}
+            />
+          </div>
+        </>
+      )}
+
       {showLayerPanel && (
         <>
           {/* Backdrop */}
@@ -411,6 +488,14 @@ export default function MapComponent() {
             <Layers className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Layers</span>
             <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${showLayerPanel ? 'rotate-180' : ''}`} />
+          </button>
+
+          {/* Directions button */}
+          <button ref={navBtnRef} onClick={openNavPanel}
+            className={`flex-shrink-0 flex items-center gap-1.5 border px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${showNavPanel ? 'border-blue-500 bg-blue-500/10 text-blue-300' : 'border-blue-500/30 bg-[#0f172a] text-blue-400 hover:border-blue-400 hover:shadow-[0_0_10px_rgba(59,130,246,0.2)]'}`}>
+            <Navigation className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Directions</span>
+            <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${showNavPanel ? 'rotate-180' : ''}`} />
           </button>
 
           {/* 360 View Button */}
@@ -546,7 +631,43 @@ export default function MapComponent() {
           <DynamicTileLayer mapType={mapType} activeOverlay={activeOverlay} />
           <FlyToController target={flyTarget} />
           <MapSizeInvalidator />
-          <MapEventsHandler onMove={handleMapMove} />
+          <MapEventsHandler onMove={handleMapMove} onClick={handleMapClick} />
+
+          {navRoutes.length > 0 && <RouteBoundsController points={navRoutes[activeNavRoute] || navRoutes[0]} />}
+
+          {navRoutes.map((points, idx) => {
+            const isActive = idx === activeNavRoute;
+            if (!isActive) {
+              return (
+                <Polyline 
+                  key={idx} 
+                  positions={points} 
+                  pathOptions={{ color: '#64748b', weight: 6, opacity: 0.6, lineCap: 'round', lineJoin: 'round' }} 
+                  eventHandlers={{ click: () => setActiveNavRoute(idx) }}
+                />
+              );
+            }
+            return null;
+          })}
+
+          {navRoutes.length > 0 && navRoutes[activeNavRoute] && (
+            <>
+              {/* Active Route Outer Stroke */}
+              <Polyline positions={navRoutes[activeNavRoute]} pathOptions={{ color: '#1e3a8a', weight: 8, opacity: 0.9, lineCap: 'round', lineJoin: 'round' }} />
+              {/* Active Route Inner Stroke */}
+              <Polyline positions={navRoutes[activeNavRoute]} pathOptions={{ color: '#3b82f6', weight: 4, opacity: 1, lineCap: 'round', lineJoin: 'round' }} />
+              
+              {/* Start Marker */}
+              <Marker position={navRoutes[activeNavRoute][0]} icon={greenIcon}>
+                <Popup><div className="text-xs font-bold text-teal-400">Start Location</div></Popup>
+              </Marker>
+              
+              {/* End Marker */}
+              <Marker position={navRoutes[activeNavRoute][navRoutes[activeNavRoute].length - 1]} icon={redIcon}>
+                <Popup><div className="text-xs font-bold text-red-400">Destination</div></Popup>
+              </Marker>
+            </>
+          )}
 
           {userLocation && (
             <Marker position={userLocation} icon={blueIcon}>

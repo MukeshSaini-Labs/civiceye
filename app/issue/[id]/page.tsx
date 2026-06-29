@@ -75,8 +75,8 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
       <div className="max-w-7xl mx-auto space-y-6">
         
         {/* Top Nav */}
-        <Link href="/impact" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-bold uppercase tracking-wider mb-4">
-          <ChevronLeft className="w-4 h-4" /> Back to Live Map
+        <Link href="/feed" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-bold uppercase tracking-wider mb-4">
+          <ChevronLeft className="w-4 h-4" /> Back to Community
         </Link>
 
         {/* Header Section */}
