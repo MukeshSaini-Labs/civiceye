@@ -18,7 +18,7 @@ export async function GET() {
     const issuesContext = issues.map((i: any) => `[${i.severity.toUpperCase()}] ${i.title} at ${i.location} (Status: ${i.status})`).join('\n');
 
     // 3. Connect to Nexus Core (Gemini)
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = (process.env.GEMINI_API_KEY || 'dummy_gemini_key');
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const prompt = `

@@ -7,7 +7,7 @@ import { Resend } from 'resend';
 const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_for_build');
 
 const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
+  apiKey: (process.env.GEMINI_API_KEY || 'dummy_gemini_key'),
   httpOptions: {
     headers: {
       'User-Agent': 'aistudio-build',

@@ -4,7 +4,7 @@ import { adminClient } from '@/sanity/lib/client';
 import { GoogleGenAI, Type } from '@google/genai';
 
 const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
+  apiKey: (process.env.GEMINI_API_KEY || 'dummy_gemini_key'),
   httpOptions: {
     headers: {
       'User-Agent': 'aistudio-build',

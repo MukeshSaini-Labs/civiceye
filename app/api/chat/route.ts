@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       };
     });
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = (process.env.GEMINI_API_KEY || 'dummy_gemini_key');
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const fetchGemini = () => fetch(apiUrl, {
