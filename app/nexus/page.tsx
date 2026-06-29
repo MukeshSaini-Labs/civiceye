@@ -192,35 +192,42 @@ export default function NexusCommandCenter() {
           
           <div className="w-full h-full absolute inset-0 pointer-events-auto z-10">
             {/* Map renders beneath the HUD */}
-            <MapComponent />
-          </div>
-
-          <div className="absolute top-[110px] sm:hidden right-4 z-30 pointer-events-auto">
-            <button 
-              onClick={() => setShowStatsDropdown(!showStatsDropdown)}
-              className="bg-[#020408]/90 backdrop-blur border border-cyan-500/30 text-cyan-400 p-2 rounded-lg flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-colors hover:bg-cyan-900/30"
-            >
-              <Database className="w-4 h-4" /> System Stats
-            </button>
-          </div>
-
-          <div className={`absolute top-[150px] sm:top-32 right-4 sm:left-6 sm:right-auto flex flex-col flex-wrap gap-2 z-30 transition-all duration-300 ${showStatsDropdown ? 'opacity-100 pointer-events-none translate-y-0' : 'opacity-0 pointer-events-none -translate-y-4 sm:opacity-100 sm:translate-y-0'}`}>
-            <div className="bg-[#020408]/90 backdrop-blur border border-cyan-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-              <div className="text-[8px] text-cyan-500 uppercase font-bold tracking-widest leading-tight">Total Reported</div>
-              <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.total}</div>
-            </div>
-            <div className="bg-[#020408]/90 backdrop-blur border border-yellow-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-              <div className="text-[8px] text-yellow-500 uppercase font-bold tracking-widest leading-tight flex justify-between"><span>Accepted</span> <span>{metrics.acceptanceRate.toFixed(0)}%</span></div>
-              <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.accepted}</div>
-            </div>
-            <div className="bg-[#020408]/90 backdrop-blur border border-emerald-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-              <div className="text-[8px] text-emerald-500 uppercase font-bold tracking-widest leading-tight flex justify-between"><span>Resolved</span> <span>{metrics.resolutionRate.toFixed(0)}%</span></div>
-              <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.resolved}</div>
-            </div>
-            <div className="bg-[#020408]/90 backdrop-blur border border-red-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-              <div className="text-[8px] text-red-500 uppercase font-bold tracking-widest leading-tight">Total Rejected</div>
-              <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.rejected}</div>
-            </div>
+            <MapComponent 
+              headerActions={
+                <div className="relative z-[9999]">
+                  <button 
+                    onClick={() => setShowStatsDropdown(!showStatsDropdown)}
+                    className={`flex-shrink-0 flex items-center gap-1 sm:gap-1.5 border px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all ${showStatsDropdown ? 'border-cyan-500 bg-cyan-500/10 text-cyan-300' : 'border-cyan-500/30 bg-[#0f172a] text-cyan-400 hover:border-cyan-400 hover:shadow-[0_0_10px_rgba(34,211,238,0.2)]'}`}
+                  >
+                    <Database className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    <span className="hidden md:inline">System Stats</span>
+                  </button>
+                  {showStatsDropdown && (
+                    <>
+                      <div className="fixed inset-0 bg-transparent" onClick={() => setShowStatsDropdown(false)} />
+                      <div className="absolute top-full mt-2 right-0 flex flex-col gap-2 z-[10000] p-3 bg-[#0a0f1c] border border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-900/20">
+                        <div className="bg-white/5 border border-cyan-500/20 p-2 rounded-lg w-32">
+                          <div className="text-[8px] text-cyan-500 uppercase font-bold tracking-widest leading-tight">Total Reported</div>
+                          <div className="text-base font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.total}</div>
+                        </div>
+                        <div className="bg-white/5 border border-yellow-500/20 p-2 rounded-lg w-32">
+                          <div className="text-[8px] text-yellow-500 uppercase font-bold tracking-widest leading-tight flex justify-between"><span>Accepted</span> <span>{metrics.acceptanceRate.toFixed(0)}%</span></div>
+                          <div className="text-base font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.accepted}</div>
+                        </div>
+                        <div className="bg-white/5 border border-emerald-500/20 p-2 rounded-lg w-32">
+                          <div className="text-[8px] text-emerald-500 uppercase font-bold tracking-widest leading-tight flex justify-between"><span>Resolved</span> <span>{metrics.resolutionRate.toFixed(0)}%</span></div>
+                          <div className="text-base font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.resolved}</div>
+                        </div>
+                        <div className="bg-white/5 border border-red-500/20 p-2 rounded-lg w-32">
+                          <div className="text-[8px] text-red-500 uppercase font-bold tracking-widest leading-tight">Total Rejected</div>
+                          <div className="text-base font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.rejected}</div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              }
+            />
           </div>
           
           {/* Target Reticle Overlay */}

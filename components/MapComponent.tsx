@@ -107,7 +107,11 @@ function MapSizeInvalidator() {
   return null;
 }
 
-export default function MapComponent() {
+interface MapComponentProps {
+  headerActions?: React.ReactNode;
+}
+
+export default function MapComponent({ headerActions }: MapComponentProps = {}) {
   const [issues, setIssues] = useState<any[]>([]);
   const [triageCategories, setTriageCategories] = useState<any[]>([
     { name: 'Critical', colorHex: '#ef4444', slaText: '4h SLA' },
@@ -393,29 +397,14 @@ export default function MapComponent() {
         .leaflet-control-zoom{display:none}
       `}</style>
 
-      {/* ── MOBILE BOTTOM SHEET LAYER PANEL ── */}
+      {/* Navigation / Directions Dropdown */}
       {showNavPanel && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-[9998] sm:hidden" onClick={() => setShowNavPanel(false)} />
-          <div ref={mobileNavPanelRef} className="sm:hidden fixed bottom-0 left-0 right-0 z-[9999] bg-[#0a0f1c] border-t border-white/10 rounded-t-3xl shadow-2xl p-5 max-h-[85vh] overflow-y-auto">
-            <div className="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4" />
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-white font-bold text-sm tracking-wide">Route Navigation</span>
-              <button onClick={() => setShowNavPanel(false)} className="text-slate-400 hover:text-white p-1"><ChevronDown className="w-5 h-5" /></button>
-            </div>
-            <NavigationOverlay 
-              currentLocation={userLocation || defaultCenter} 
-              routes={navRoutes}
-              activeRouteIndex={activeNavRoute}
-              onRoutesUpdate={(routes) => setNavRoutes(routes)}
-              onActiveIndexChange={(idx) => setActiveNavRoute(idx)}
-            />
-          </div>
-          {/* Desktop dropdown */}
+          <div className="fixed inset-0 bg-transparent z-[9998]" onClick={() => setShowNavPanel(false)} />
           <div
             ref={navPanelRef}
             style={{ position: 'fixed', top: panelPos.top, right: Math.max(panelPos.right, 8), zIndex: 9999 }}
-            className="hidden sm:block w-80 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-4"
+            className="w-[90vw] max-w-[320px] sm:w-80 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-4"
           >
             <NavigationOverlay 
               currentLocation={userLocation || defaultCenter} 
@@ -428,24 +417,14 @@ export default function MapComponent() {
         </>
       )}
 
+      {/* Layers Dropdown */}
       {showLayerPanel && (
         <>
-          {/* Backdrop */}
-          <div className="fixed inset-0 bg-black/60 z-[9998] sm:hidden" onClick={() => setShowLayerPanel(false)} />
-          {/* Bottom Sheet on mobile */}
-          <div ref={mobileLayerPanelRef} className="sm:hidden fixed bottom-0 left-0 right-0 z-[9999] bg-[#0a0f1c] border-t border-white/10 rounded-t-3xl shadow-2xl p-5 max-h-[80vh] overflow-y-auto">
-            <div className="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4" />
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-white font-bold text-sm tracking-wide">Map Layers & Settings</span>
-              <button onClick={() => setShowLayerPanel(false)} className="text-slate-400 hover:text-white p-1"><ChevronDown className="w-5 h-5" /></button>
-            </div>
-            <LayerPanelContent />
-          </div>
-          {/* Desktop dropdown */}
+          <div className="fixed inset-0 bg-transparent z-[9998]" onClick={() => setShowLayerPanel(false)} />
           <div
             ref={layerPanelRef}
             style={{ position: 'fixed', top: panelPos.top, right: Math.max(panelPos.right, 8), zIndex: 9999 }}
-            className="hidden sm:block w-72 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-4"
+            className="w-[90vw] max-w-[288px] sm:w-72 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-4"
           >
             <LayerPanelContent />
           </div>
@@ -473,36 +452,38 @@ export default function MapComponent() {
             </button>
           </form>
 
-          {/* AQI badge — hidden on very small screens */}
+          {/* AQI badge — hidden on mobile */}
           {aqiInfo && aqi && (
-            <div className={`hidden xs:flex flex-shrink-0 items-center gap-1 px-2 py-1.5 rounded-lg border text-[10px] font-bold ${aqiInfo.bg} ${aqiInfo.text}`}>
+            <div className={`hidden lg:flex flex-shrink-0 items-center gap-1 px-2 py-1.5 rounded-lg border text-[10px] font-bold ${aqiInfo.bg} ${aqiInfo.text}`}>
               <Activity className="w-3 h-3" />
               <span>AQI {aqi.aqi}</span>
-              <span className="hidden sm:inline opacity-70 font-normal">{aqiInfo.label}</span>
+              <span className="hidden xl:inline opacity-70 font-normal">{aqiInfo.label}</span>
             </div>
           )}
 
           {/* Layers button */}
           <button ref={layerBtnRef} onClick={openLayerPanel}
-            className={`flex-shrink-0 flex items-center gap-1.5 border px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${showLayerPanel ? 'border-teal-500 bg-teal-500/10 text-teal-300' : 'border-teal-500/30 bg-[#0f172a] text-teal-400 hover:border-teal-400 hover:shadow-[0_0_10px_rgba(20,184,166,0.2)]'}`}>
-            <Layers className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Layers</span>
+            className={`flex-shrink-0 flex items-center gap-1 sm:gap-1.5 border px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all ${showLayerPanel ? 'border-teal-500 bg-teal-500/10 text-teal-300' : 'border-teal-500/30 bg-[#0f172a] text-teal-400 hover:border-teal-400 hover:shadow-[0_0_10px_rgba(20,184,166,0.2)]'}`}>
+            <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span className="hidden md:inline">Layers</span>
             <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${showLayerPanel ? 'rotate-180' : ''}`} />
           </button>
 
           {/* Directions button */}
           <button ref={navBtnRef} onClick={openNavPanel}
-            className={`flex-shrink-0 flex items-center gap-1.5 border px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${showNavPanel ? 'border-blue-500 bg-blue-500/10 text-blue-300' : 'border-blue-500/30 bg-[#0f172a] text-blue-400 hover:border-blue-400 hover:shadow-[0_0_10px_rgba(59,130,246,0.2)]'}`}>
-            <Navigation className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Directions</span>
+            className={`flex-shrink-0 flex items-center gap-1 sm:gap-1.5 border px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all ${showNavPanel ? 'border-blue-500 bg-blue-500/10 text-blue-300' : 'border-blue-500/30 bg-[#0f172a] text-blue-400 hover:border-blue-400 hover:shadow-[0_0_10px_rgba(59,130,246,0.2)]'}`}>
+            <Navigation className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span className="hidden md:inline">Directions</span>
             <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${showNavPanel ? 'rotate-180' : ''}`} />
           </button>
+
+          {/* Injected Header Actions (System Stats) */}
+          {headerActions}
 
           {/* 360 View Button */}
           <button 
             onClick={() => {
               if (!streetView) {
-                // Open 360 view for the current map center
                 const centerLat = flyTarget ? flyTarget[0] : defaultCenter[0];
                 const centerLng = flyTarget ? flyTarget[1] : defaultCenter[1];
                 setStreetView({ lat: centerLat, lng: centerLng });
@@ -510,22 +491,22 @@ export default function MapComponent() {
                 setStreetView(null);
               }
             }}
-            className={`flex-shrink-0 flex items-center gap-1.5 border px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${streetView ? 'border-purple-500 bg-purple-500/10 text-purple-300' : 'border-purple-500/30 bg-[#0f172a] text-purple-400 hover:border-purple-400 hover:shadow-[0_0_10px_rgba(168,85,247,0.2)]'}`}>
-            <span className="text-lg leading-none">🌐</span>
-            <span className="hidden sm:inline">360° View</span>
+            className={`flex-shrink-0 flex items-center gap-1 sm:gap-1.5 border px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all ${streetView ? 'border-purple-500 bg-purple-500/10 text-purple-300' : 'border-purple-500/30 bg-[#0f172a] text-purple-400 hover:border-purple-400 hover:shadow-[0_0_10px_rgba(168,85,247,0.2)]'}`}>
+            <span className="text-sm sm:text-lg leading-none">🌐</span>
+            <span className="hidden md:inline">360° View</span>
           </button>
 
           {/* GPS button */}
           <button onClick={locateMe} disabled={isSearching}
-            className="flex-shrink-0 flex items-center gap-1.5 bg-teal-500/10 border border-teal-500/30 hover:border-teal-400 text-teal-400 px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all hover:shadow-[0_0_10px_rgba(20,184,166,0.2)]">
-            {isSearching ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Target className="w-3.5 h-3.5" />}
-            <span className="hidden sm:inline">GPS</span>
+            className="flex-shrink-0 flex items-center gap-1 sm:gap-1.5 bg-teal-500/10 border border-teal-500/30 hover:border-teal-400 text-teal-400 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all hover:shadow-[0_0_10px_rgba(20,184,166,0.2)]">
+            {isSearching ? <Loader2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 animate-spin" /> : <Target className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
+            <span className="hidden xl:inline">GPS</span>
           </button>
 
           {/* Fullscreen button */}
           <button onClick={toggleFullscreen}
-            className="flex-shrink-0 flex items-center justify-center bg-slate-800 text-slate-300 hover:text-white border border-slate-600 hover:border-slate-500 px-3 py-2 rounded-xl transition-all">
-            {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+            className="flex-shrink-0 flex items-center justify-center bg-slate-800 text-slate-300 hover:text-white border border-slate-600 hover:border-slate-500 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl transition-all">
+            {isFullscreen ? <Minimize className="w-3 h-3 sm:w-4 sm:h-4" /> : <Maximize className="w-3 h-3 sm:w-4 sm:h-4" />}
           </button>
         </div>
 
