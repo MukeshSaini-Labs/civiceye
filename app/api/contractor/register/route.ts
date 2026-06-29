@@ -2,8 +2,8 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createClient } from 'next-sanity';
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'dummy_project_id';
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'dummy_dataset';
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'dummy-project-id';
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'dummy-dataset';
 const token = process.env.SANITY_API_TOKEN || process.env.SANITY_API_WRITE_TOKEN;
 
 const client = createClient({
