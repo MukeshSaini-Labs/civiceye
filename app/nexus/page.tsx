@@ -27,6 +27,7 @@ export default function NexusCommandCenter() {
   const [activeOps, setActiveOps] = useState<IssueData[]>([]);
   const [resolvedOps, setResolvedOps] = useState<IssueData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showStatsDropdown, setShowStatsDropdown] = useState(false);
 
   // Store real log templates based on data
   const telemetryPool = useRef<string[]>([]);
@@ -194,20 +195,29 @@ export default function NexusCommandCenter() {
             <MapComponent />
           </div>
 
-          <div className="absolute top-[110px] sm:top-32 left-4 sm:left-6 right-4 sm:right-auto flex flex-row sm:flex-col flex-wrap gap-2 z-30 pointer-events-none">
-            <div className="bg-[#020408]/90 backdrop-blur border border-cyan-500/30 p-2 rounded-lg w-[calc(50%-4px)] sm:w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="absolute top-[110px] sm:hidden right-4 z-30 pointer-events-auto">
+            <button 
+              onClick={() => setShowStatsDropdown(!showStatsDropdown)}
+              className="bg-[#020408]/90 backdrop-blur border border-cyan-500/30 text-cyan-400 p-2 rounded-lg flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-colors hover:bg-cyan-900/30"
+            >
+              <Database className="w-4 h-4" /> System Stats
+            </button>
+          </div>
+
+          <div className={`absolute top-[150px] sm:top-32 right-4 sm:left-6 sm:right-auto flex flex-col flex-wrap gap-2 z-30 transition-all duration-300 ${showStatsDropdown ? 'opacity-100 pointer-events-none translate-y-0' : 'opacity-0 pointer-events-none -translate-y-4 sm:opacity-100 sm:translate-y-0'}`}>
+            <div className="bg-[#020408]/90 backdrop-blur border border-cyan-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               <div className="text-[8px] text-cyan-500 uppercase font-bold tracking-widest leading-tight">Total Reported</div>
               <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.total}</div>
             </div>
-            <div className="bg-[#020408]/90 backdrop-blur border border-yellow-500/30 p-2 rounded-lg w-[calc(50%-4px)] sm:w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-[#020408]/90 backdrop-blur border border-yellow-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               <div className="text-[8px] text-yellow-500 uppercase font-bold tracking-widest leading-tight flex justify-between"><span>Accepted</span> <span>{metrics.acceptanceRate.toFixed(0)}%</span></div>
               <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.accepted}</div>
             </div>
-            <div className="bg-[#020408]/90 backdrop-blur border border-emerald-500/30 p-2 rounded-lg w-[calc(50%-4px)] sm:w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-[#020408]/90 backdrop-blur border border-emerald-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               <div className="text-[8px] text-emerald-500 uppercase font-bold tracking-widest leading-tight flex justify-between"><span>Resolved</span> <span>{metrics.resolutionRate.toFixed(0)}%</span></div>
               <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.resolved}</div>
             </div>
-            <div className="bg-[#020408]/90 backdrop-blur border border-red-500/30 p-2 rounded-lg w-[calc(50%-4px)] sm:w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-[#020408]/90 backdrop-blur border border-red-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               <div className="text-[8px] text-red-500 uppercase font-bold tracking-widest leading-tight">Total Rejected</div>
               <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.rejected}</div>
             </div>

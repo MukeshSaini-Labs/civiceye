@@ -114,6 +114,7 @@ export default function MapComponent() {
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const layerPanelRef = useRef<HTMLDivElement>(null);
+  const mobileLayerPanelRef = useRef<HTMLDivElement>(null);
   const layerBtnRef = useRef<HTMLButtonElement>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   // Default to Connaught Place, New Delhi (guaranteed 360 street view coverage)
@@ -227,7 +228,12 @@ export default function MapComponent() {
 
   // Close layer panel on outside click
   useEffect(() => {
-    const handler = (e: MouseEvent) => { if (layerPanelRef.current && !layerPanelRef.current.contains(e.target as Node)) setShowLayerPanel(false); };
+    const handler = (e: MouseEvent) => { 
+      if (layerBtnRef.current?.contains(e.target as Node)) return;
+      if (layerPanelRef.current?.contains(e.target as Node)) return;
+      if (mobileLayerPanelRef.current?.contains(e.target as Node)) return;
+      setShowLayerPanel(false); 
+    };
     document.addEventListener('mousedown', handler);
     
     const handleFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement);
@@ -350,7 +356,7 @@ export default function MapComponent() {
           {/* Backdrop */}
           <div className="fixed inset-0 bg-black/60 z-[9998] sm:hidden" onClick={() => setShowLayerPanel(false)} />
           {/* Bottom Sheet on mobile */}
-          <div className="sm:hidden fixed bottom-0 left-0 right-0 z-[9999] bg-[#0a0f1c] border-t border-white/10 rounded-t-3xl shadow-2xl p-5 max-h-[80vh] overflow-y-auto">
+          <div ref={mobileLayerPanelRef} className="sm:hidden fixed bottom-0 left-0 right-0 z-[9999] bg-[#0a0f1c] border-t border-white/10 rounded-t-3xl shadow-2xl p-5 max-h-[80vh] overflow-y-auto">
             <div className="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4" />
             <div className="flex items-center justify-between mb-4">
               <span className="text-white font-bold text-sm tracking-wide">Map Layers & Settings</span>

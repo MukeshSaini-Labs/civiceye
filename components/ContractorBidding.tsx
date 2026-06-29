@@ -215,7 +215,7 @@ export default function ContractorBidding({ bountyId, issueId, issueStatus, issu
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Verified Email</label>
-                  <p className="text-sm font-bold text-slate-300">{user.email}</p>
+                  <p className="text-sm font-bold text-slate-300 break-all">{user.email}</p>
                 </div>
               </div>
 

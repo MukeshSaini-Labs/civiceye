@@ -69,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <h4 className="text-white font-bold font-heading mb-6 tracking-wide">Platform</h4>
                 <ul className="space-y-4">
                   <li><Link href="/nexus" className="text-slate-400 hover:text-teal-400 transition-colors text-sm font-medium">Nexus Command</Link></li>
-                  <li><Link href="/impact" className="text-slate-400 hover:text-teal-400 transition-colors text-sm font-medium">Live Geo-Map</Link></li>
+                  <li><Link href="/impact" className="text-slate-400 hover:text-teal-400 transition-colors text-sm font-medium">Impact Stories</Link></li>
                   <li><Link href="/leaderboard" className="text-slate-400 hover:text-teal-400 transition-colors text-sm font-medium">Civic Leaderboard</Link></li>
                   <li><Link href="/api-documentation" className="text-slate-400 hover:text-teal-400 transition-colors text-sm font-medium">API Documentation</Link></li>
                   <li><Link href="/about" className="text-slate-400 hover:text-teal-400 transition-colors text-sm font-medium">About CivicEye</Link></li>
