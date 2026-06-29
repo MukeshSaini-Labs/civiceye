@@ -121,7 +121,7 @@ export default function NexusCommandCenter() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#000000] text-cyan-400 font-mono overflow-hidden flex flex-col selection:bg-cyan-900">
+    <div className="min-h-[100dvh] bg-[#000000] text-cyan-400 font-mono overflow-x-hidden md:overflow-hidden flex flex-col selection:bg-cyan-900">
       
       {/* HUD Header */}
       <header className="h-16 border-b border-cyan-500/30 flex items-center justify-between px-4 sm:px-6 bg-[#020408]/80 backdrop-blur-md relative z-20 shrink-0">
@@ -153,7 +153,7 @@ export default function NexusCommandCenter() {
       </header>
 
       {/* Main HUD Layout */}
-      <div className="h-[calc(100vh-4rem)] flex flex-col md:flex-row relative overflow-hidden">
+      <div className="h-auto md:h-[calc(100vh-4rem)] flex flex-col md:flex-row relative">
         
         {/* Background Grid */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
@@ -194,20 +194,20 @@ export default function NexusCommandCenter() {
             <MapComponent />
           </div>
 
-          <div className="absolute top-28 sm:top-32 left-4 sm:left-6 flex flex-col gap-2 sm:gap-2 z-30 pointer-events-none">
-            <div className="bg-[#020408]/90 backdrop-blur border border-cyan-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="absolute top-[110px] sm:top-32 left-4 sm:left-6 right-4 sm:right-auto flex flex-row sm:flex-col flex-wrap gap-2 z-30 pointer-events-none">
+            <div className="bg-[#020408]/90 backdrop-blur border border-cyan-500/30 p-2 rounded-lg w-[calc(50%-4px)] sm:w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               <div className="text-[8px] text-cyan-500 uppercase font-bold tracking-widest leading-tight">Total Reported</div>
               <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.total}</div>
             </div>
-            <div className="bg-[#020408]/90 backdrop-blur border border-yellow-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-[#020408]/90 backdrop-blur border border-yellow-500/30 p-2 rounded-lg w-[calc(50%-4px)] sm:w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               <div className="text-[8px] text-yellow-500 uppercase font-bold tracking-widest leading-tight flex justify-between"><span>Accepted</span> <span>{metrics.acceptanceRate.toFixed(0)}%</span></div>
               <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.accepted}</div>
             </div>
-            <div className="bg-[#020408]/90 backdrop-blur border border-emerald-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-[#020408]/90 backdrop-blur border border-emerald-500/30 p-2 rounded-lg w-[calc(50%-4px)] sm:w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               <div className="text-[8px] text-emerald-500 uppercase font-bold tracking-widest leading-tight flex justify-between"><span>Resolved</span> <span>{metrics.resolutionRate.toFixed(0)}%</span></div>
               <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.resolved}</div>
             </div>
-            <div className="bg-[#020408]/90 backdrop-blur border border-red-500/30 p-2 rounded-lg w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-[#020408]/90 backdrop-blur border border-red-500/30 p-2 rounded-lg w-[calc(50%-4px)] sm:w-32 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               <div className="text-[8px] text-red-500 uppercase font-bold tracking-widest leading-tight">Total Rejected</div>
               <div className="text-base sm:text-lg font-black text-white leading-none mt-1">{isLoading ? '-' : metrics.rejected}</div>
             </div>
@@ -225,7 +225,7 @@ export default function NexusCommandCenter() {
         </div>
 
         {/* Right Panel: Operations Split */}
-        <div className="w-full md:w-80 border-t md:border-t-0 md:border-l border-cyan-500/20 bg-[#020408]/80 backdrop-blur-md z-10 flex flex-col shrink-0">
+        <div className="w-full h-[600px] md:h-full md:w-80 border-t md:border-t-0 md:border-l border-cyan-500/20 bg-[#020408]/80 backdrop-blur-md z-10 flex flex-col shrink-0">
           
           {/* Active Operations */}
           <div className="flex flex-col flex-1 min-h-[200px] border-b border-cyan-500/20">

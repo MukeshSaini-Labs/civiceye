@@ -6,12 +6,17 @@ import { Camera, BrainCircuit, Wrench, CheckCircle } from 'lucide-react';
 
 export default function HowItWorksClient({ steps }: { steps: any[] }) {
   // Fallback to hardcoded if CMS is empty
-  const displaySteps = steps?.length > 0 ? steps : [
+  let displaySteps = steps?.length > 0 ? steps : [
     { stepNumber: 1, title: "Optical Ingestion", description: "A citizen identifies a hazard and captures a visual frame using the CivicPulse terminal.", iconName: "Camera" },
     { stepNumber: 2, title: "AI Triage Engine", description: "Google Gemini Vision model instantly extracts metadata: hazard category, exact severity index, etc.", iconName: "BrainCircuit" },
     { stepNumber: 3, title: "Contractor Dispatch", description: "The system autonomously generates a work order and dispatches the most optimized local contractor.", iconName: "Wrench" },
     { stepNumber: 4, title: "Forensic Verification", description: "Post-repair, the contractor uploads completion evidence for AI verification.", iconName: "CheckCircle" },
   ];
+
+  // Deduplicate steps by stepNumber to prevent double-rendering on mobile/desktop
+  displaySteps = displaySteps.filter((step: any, index: number, self: any[]) =>
+    index === self.findIndex((t) => t.stepNumber === step.stepNumber)
+  );
 
   const getIcon = (name: string) => {
     switch (name) {

@@ -84,14 +84,14 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 via-purple-500 to-emerald-500" />
           
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-            <div className="flex items-center gap-3">
-              <span className="bg-white/10 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="bg-white/10 px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider">
                 {issue.category}
               </span>
-              <span className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border ${severityColor}`}>
+              <span className={`px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider border ${severityColor}`}>
                 {issue.triageTier} Priority
               </span>
-              <span className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+              <span className={`px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider ${
                 effectiveIssueStatus === 'Resolved' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' :
                 effectiveIssueStatus === 'In Review' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
                 'bg-blue-500/20 text-blue-400 border-blue-500/30'
@@ -136,7 +136,7 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
           
           <div className="relative">
             {/* Progress Track */}
-            <div className="absolute top-4 left-0 w-full h-1 bg-[#1e293b] rounded-full overflow-hidden">
+            <div className="absolute top-3.5 md:top-4 left-0 w-full h-1 bg-[#1e293b] rounded-full overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-teal-500 to-emerald-400 transition-all duration-1000" 
                 style={{ width: progressWidth }}
@@ -146,35 +146,35 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
             {/* Steps */}
             <div className="flex justify-between relative z-10">
               {/* Step 1: Reported */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-9 h-9 rounded-full bg-teal-500 border-4 border-[#0f172a] flex items-center justify-center text-[#020408] font-bold shadow-[0_0_15px_rgba(20,184,166,0.3)]">
-                  <CheckCircle2 className="w-5 h-5" />
+              <div className="flex flex-col items-center gap-1.5 md:gap-2">
+                <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-teal-500 border-2 md:border-4 border-[#0f172a] flex items-center justify-center text-[#020408] font-bold shadow-[0_0_15px_rgba(20,184,166,0.3)]">
+                  <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" />
                 </div>
-                <span className="text-xs font-bold text-teal-400 uppercase tracking-widest">Reported</span>
+                <span className="text-[8px] sm:text-[10px] md:text-xs font-bold text-teal-400 uppercase tracking-widest whitespace-nowrap">Reported</span>
               </div>
 
               {/* Step 2: Verified */}
-              <div className="flex flex-col items-center gap-2">
-                <div className={`w-9 h-9 rounded-full border-4 border-[#0f172a] flex items-center justify-center font-bold transition-colors ${step2Active ? 'bg-teal-500 text-[#020408] shadow-[0_0_15px_rgba(20,184,166,0.3)]' : 'bg-[#1e293b] text-slate-500'}`}>
-                  {step2Active ? <CheckCircle2 className="w-5 h-5" /> : '2'}
+              <div className="flex flex-col items-center gap-1.5 md:gap-2">
+                <div className={`w-7 h-7 md:w-9 md:h-9 rounded-full border-2 md:border-4 border-[#0f172a] flex items-center justify-center font-bold transition-colors ${step2Active ? 'bg-teal-500 text-[#020408] shadow-[0_0_15px_rgba(20,184,166,0.3)]' : 'bg-[#1e293b] text-slate-500'}`}>
+                  {step2Active ? <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" /> : <span className="text-xs md:text-sm">2</span>}
                 </div>
-                <span className={`text-xs font-bold uppercase tracking-widest ${step2Active ? 'text-teal-400' : 'text-slate-500'}`}>Verified</span>
+                <span className={`text-[8px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap ${step2Active ? 'text-teal-400' : 'text-slate-500'}`}>Verified</span>
               </div>
 
               {/* Step 3: In Progress */}
-              <div className="flex flex-col items-center gap-2">
-                <div className={`w-9 h-9 rounded-full border-4 border-[#0f172a] flex items-center justify-center font-bold transition-colors ${step3Active ? 'bg-teal-500 text-[#020408] shadow-[0_0_15px_rgba(20,184,166,0.3)]' : 'bg-[#1e293b] text-slate-500'}`}>
-                  {step3Active ? <CheckCircle2 className="w-5 h-5" /> : '3'}
+              <div className="flex flex-col items-center gap-1.5 md:gap-2">
+                <div className={`w-7 h-7 md:w-9 md:h-9 rounded-full border-2 md:border-4 border-[#0f172a] flex items-center justify-center font-bold transition-colors ${step3Active ? 'bg-teal-500 text-[#020408] shadow-[0_0_15px_rgba(20,184,166,0.3)]' : 'bg-[#1e293b] text-slate-500'}`}>
+                  {step3Active ? <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" /> : <span className="text-xs md:text-sm">3</span>}
                 </div>
-                <span className={`text-xs font-bold uppercase tracking-widest ${step3Active ? 'text-teal-400' : 'text-slate-500'}`}>In Progress</span>
+                <span className={`text-[8px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap ${step3Active ? 'text-teal-400' : 'text-slate-500'}`}>In Progress</span>
               </div>
 
               {/* Step 4: Resolved */}
-              <div className="flex flex-col items-center gap-2">
-                <div className={`w-9 h-9 rounded-full border-4 border-[#0f172a] flex items-center justify-center font-bold transition-colors ${step4Active ? 'bg-teal-500 text-[#020408] shadow-[0_0_15px_rgba(20,184,166,0.3)]' : 'bg-[#1e293b] text-slate-500'}`}>
-                  {step4Active ? <CheckCircle2 className="w-5 h-5" /> : '4'}
+              <div className="flex flex-col items-center gap-1.5 md:gap-2">
+                <div className={`w-7 h-7 md:w-9 md:h-9 rounded-full border-2 md:border-4 border-[#0f172a] flex items-center justify-center font-bold transition-colors ${step4Active ? 'bg-teal-500 text-[#020408] shadow-[0_0_15px_rgba(20,184,166,0.3)]' : 'bg-[#1e293b] text-slate-500'}`}>
+                  {step4Active ? <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" /> : <span className="text-xs md:text-sm">4</span>}
                 </div>
-                <span className={`text-xs font-bold uppercase tracking-widest ${step4Active ? 'text-teal-400' : 'text-slate-500'}`}>Resolved</span>
+                <span className={`text-[8px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap ${step4Active ? 'text-teal-400' : 'text-slate-500'}`}>Resolved</span>
               </div>
             </div>
           </div>

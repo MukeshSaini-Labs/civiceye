@@ -204,7 +204,7 @@ export default function ContractorBidding({ bountyId, issueId, issueStatus, issu
               )}
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <h4 className="font-bold text-white mb-4">Enter Bid Details</h4>
               
               {/* Read-Only Contractor Info */}
@@ -219,7 +219,7 @@ export default function ContractorBidding({ bountyId, issueId, issueStatus, issu
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs text-yellow-500 uppercase font-bold tracking-wider mb-1">Your Bid Amount (₹)</label>
                   <div className="relative">
@@ -239,14 +239,14 @@ export default function ContractorBidding({ bountyId, issueId, issueStatus, issu
                 <label className="block text-xs text-slate-400 uppercase tracking-wider mb-1">Material Breakdown</label>
                 <div className="relative">
                   <Pickaxe className="w-4 h-4 absolute left-3 top-3 text-slate-500" />
-                  <textarea required value={formData.materialDetails} onChange={e => setFormData({...formData, materialDetails: e.target.value})} className="w-full bg-[#0f172a] border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:border-yellow-500/50 outline-none transition-colors min-h-[80px]" placeholder="List materials to be used and approximate costs..."></textarea>
+                  <textarea required value={formData.materialDetails} onChange={e => setFormData({...formData, materialDetails: e.target.value})} className="w-full bg-[#0f172a] border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:border-yellow-500/50 outline-none transition-colors min-h-[120px]" placeholder="List materials to be used and approximate costs..."></textarea>
                 </div>
               </div>
               <div>
                 <label className="block text-xs text-slate-400 uppercase tracking-wider mb-1">Wages / Salary Detail</label>
                 <div className="relative">
                   <FileText className="w-4 h-4 absolute left-3 top-3 text-slate-500" />
-                  <textarea required value={formData.wageDetails} onChange={e => setFormData({...formData, wageDetails: e.target.value})} className="w-full bg-[#0f172a] border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:border-yellow-500/50 outline-none transition-colors min-h-[80px]" placeholder="Estimated labor charges..."></textarea>
+                  <textarea required value={formData.wageDetails} onChange={e => setFormData({...formData, wageDetails: e.target.value})} className="w-full bg-[#0f172a] border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:border-yellow-500/50 outline-none transition-colors min-h-[120px]" placeholder="Estimated labor charges..."></textarea>
                 </div>
               </div>
               

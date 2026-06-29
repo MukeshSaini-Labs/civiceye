@@ -295,7 +295,7 @@ export default function AiHelpDesk() {
         }
       `}} />
 
-      <div className={`fixed z-[100] bg-[#020408]/90 backdrop-blur-3xl holo-border holo-terminal flex flex-col font-mono text-cyan-500 transition-all duration-500 ease-in-out overflow-hidden shadow-2xl ${isMaximized ? 'bottom-0 right-0 w-full h-[100dvh] sm:bottom-6 sm:right-6 sm:w-[60vw] sm:min-w-[800px] sm:h-[85vh] sm:rounded-[24px]' : 'bottom-0 right-0 w-full h-[100dvh] sm:bottom-6 sm:right-6 sm:w-[420px] sm:h-[600px] sm:max-h-[85vh] sm:rounded-[24px]'} border-[2px]`}>
+      <div className={`fixed z-[100] bg-[#020408]/90 backdrop-blur-3xl holo-border holo-terminal flex flex-col font-mono text-cyan-500 transition-all duration-500 ease-in-out overflow-hidden shadow-2xl ${isMaximized ? 'bottom-0 right-0 w-full h-[100dvh] sm:bottom-6 sm:right-6 sm:w-[60vw] sm:min-w-[800px] sm:h-[85vh] sm:rounded-[24px]' : 'bottom-4 right-4 w-[calc(100vw-32px)] h-[550px] max-h-[80vh] rounded-[24px] sm:bottom-6 sm:right-6 sm:w-[420px] sm:h-[600px] sm:max-h-[85vh]'} border-[2px]`}>
         
         {/* Subtle Scanline Background Overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.4)_50%)] bg-[length:100%_4px] pointer-events-none opacity-10 z-0 mix-blend-overlay" />

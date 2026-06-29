@@ -165,7 +165,7 @@ export default function ContractorProfilePage() {
 
           <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
             <p className="text-xs text-slate-500 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4" /> Professional identity verified by Sanity Nexus.
+              <ShieldCheck className="w-4 h-4" /> Professional identity verified.
             </p>
             <Link href="/bids" className="bg-yellow-500 hover:bg-yellow-400 text-black text-sm font-black px-6 py-2.5 rounded-xl transition-all shadow-[0_0_15px_rgba(234,179,8,0.2)]">
               View Active Tenders

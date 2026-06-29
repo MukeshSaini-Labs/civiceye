@@ -294,7 +294,7 @@ export default function MapComponent() {
         <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1.5">Map Type</p>
         <div className="grid grid-cols-2 gap-2">
           {(Object.keys(MAP_LAYERS) as Array<keyof typeof MAP_LAYERS>).map(key => (
-            <button key={key} onClick={() => { setMapType(key); setShowLayerPanel(false); }}
+            <button key={key} onClick={() => setMapType(key)}
               className={`flex flex-col items-center gap-1 p-2 rounded-xl border text-xs font-bold transition-all ${mapType === key ? 'border-teal-500 bg-teal-500/10 text-teal-300 shadow-[0_0_15px_rgba(20,184,166,0.15)]' : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/30 hover:text-white'}`}>
               {key === 'default' && <Globe className="w-4 h-4" />}
               {key === 'satellite' && <Satellite className="w-4 h-4" />}
