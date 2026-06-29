@@ -146,19 +146,11 @@ export default function MapComponent({ headerActions }: MapComponentProps = {}) 
   const defaultCenter: [number, number] = [28.6328, 77.2197];
 
   const openLayerPanel = () => {
-    if (layerBtnRef.current) {
-      const rect = layerBtnRef.current.getBoundingClientRect();
-      setPanelPos({ top: rect.bottom + 8, right: window.innerWidth - rect.right });
-    }
     setShowLayerPanel(p => !p);
     setShowNavPanel(false);
   };
 
   const openNavPanel = () => {
-    if (navBtnRef.current) {
-      const rect = navBtnRef.current.getBoundingClientRect();
-      setPanelPos({ top: rect.bottom + 8, right: window.innerWidth - rect.right });
-    }
     setShowNavPanel(p => !p);
     setShowLayerPanel(false);
   };
@@ -403,14 +395,7 @@ export default function MapComponent({ headerActions }: MapComponentProps = {}) 
           <div className="fixed inset-0 bg-transparent z-[9998]" onClick={() => setShowNavPanel(false)} />
           <div
             ref={navPanelRef}
-            style={{ 
-              position: 'fixed', 
-              top: panelPos.top, 
-              ...(typeof window !== 'undefined' && window.innerWidth < 640 
-                   ? { left: '16px', right: '16px', margin: '0 auto', maxWidth: 'calc(100vw - 32px)' } 
-                   : { right: Math.max(panelPos.right, 8) })
-            }}
-            className="w-full sm:w-80 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-3 sm:p-4"
+            className="absolute top-[60px] sm:top-[72px] left-4 right-4 sm:left-auto sm:right-4 z-[9999] max-w-[calc(100vw-32px)] sm:w-80 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-3 sm:p-4"
           >
             <NavigationOverlay 
               currentLocation={userLocation || defaultCenter} 
@@ -429,14 +414,7 @@ export default function MapComponent({ headerActions }: MapComponentProps = {}) 
           <div className="fixed inset-0 bg-transparent z-[9998]" onClick={() => setShowLayerPanel(false)} />
           <div
             ref={layerPanelRef}
-            style={{ 
-              position: 'fixed', 
-              top: panelPos.top, 
-              ...(typeof window !== 'undefined' && window.innerWidth < 640 
-                   ? { left: '16px', right: '16px', margin: '0 auto', maxWidth: '320px' } 
-                   : { right: Math.max(panelPos.right, 8) })
-            }}
-            className="w-full sm:w-72 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-3 sm:p-4"
+            className="absolute top-[60px] sm:top-[72px] left-4 right-4 sm:left-auto sm:right-4 z-[9999] max-w-[calc(100vw-32px)] sm:w-72 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-3 sm:p-4"
           >
             <LayerPanelContent />
           </div>
