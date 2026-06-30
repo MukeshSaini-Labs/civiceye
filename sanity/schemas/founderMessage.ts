@@ -38,6 +38,7 @@ export const founderMessage = {
       type: 'object',
       description: 'Leave blank if you do not want the icon to appear.',
       fields: [
+        { name: 'github', title: 'GitHub URL', type: 'url' },
         { name: 'linkedin', title: 'LinkedIn URL', type: 'url' },
         { name: 'twitter', title: 'X (Twitter) URL', type: 'url' },
         { name: 'youtube', title: 'YouTube URL', type: 'url' },

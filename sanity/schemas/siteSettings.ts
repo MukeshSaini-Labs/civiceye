@@ -31,16 +31,16 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'socialLinks',
-      title: 'Social Links',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'platform', title: 'Platform', type: 'string' },
-            { name: 'url', title: 'URL', type: 'url' },
-          ],
-        },
+      title: 'Social Media Links',
+      type: 'object',
+      description: 'Leave blank if you do not want the icon to appear.',
+      fields: [
+        { name: 'github', title: 'GitHub URL', type: 'url' },
+        { name: 'linkedin', title: 'LinkedIn URL', type: 'url' },
+        { name: 'twitter', title: 'X (Twitter) URL', type: 'url' },
+        { name: 'youtube', title: 'YouTube URL', type: 'url' },
+        { name: 'instagram', title: 'Instagram URL', type: 'url' },
+        { name: 'facebook', title: 'Facebook URL', type: 'url' },
       ],
     }),
   ],

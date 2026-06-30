@@ -2,7 +2,7 @@ import { client } from '@/sanity/lib/client';
 import { PortableText } from '@portabletext/react';
 import { urlForImage } from '@/sanity/lib/image';
 import Image from 'next/image';
-import { Linkedin, Twitter, Youtube, Instagram, Facebook } from 'lucide-react';
+import { Linkedin, Twitter, Youtube, Instagram, Facebook, Github } from 'lucide-react';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -25,6 +25,7 @@ export default async function FounderPage() {
 
   const socialIcons = [
     { name: 'linkedin', icon: Linkedin, color: 'hover:text-[#0A66C2]' },
+    { name: 'github', icon: Github, color: 'hover:text-white' },
     { name: 'twitter', icon: Twitter, color: 'hover:text-[#1DA1F2]' },
     { name: 'youtube', icon: Youtube, color: 'hover:text-[#FF0000]' },
     { name: 'instagram', icon: Instagram, color: 'hover:text-[#E4405F]' },
