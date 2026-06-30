@@ -422,7 +422,7 @@ export default function MapComponent({ headerActions }: MapComponentProps = {}) 
       )}
 
       {/* ── Top Command Bar ── */}
-      <div className="w-full bg-[#020408] border-b border-white/[0.08] z-[400] relative">
+      <div className="w-full bg-[#020408] border-b border-white/[0.08] z-[2000] relative">
 
         {/* Row 1: Search + Controls */}
         <div className="flex items-center gap-2 px-3 py-2">
