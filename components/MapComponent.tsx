@@ -442,14 +442,7 @@ export default function MapComponent({ headerActions }: MapComponentProps = {}) 
             </button>
           </form>
 
-          {/* AQI badge — hidden on mobile */}
-          {aqiInfo && aqi && (
-            <div className={`hidden lg:flex flex-shrink-0 items-center gap-1 px-2 py-1.5 rounded-lg border text-[10px] font-bold ${aqiInfo.bg} ${aqiInfo.text}`}>
-              <Activity className="w-3 h-3" />
-              <span>AQI {aqi.aqi}</span>
-              <span className="hidden xl:inline opacity-70 font-normal">{aqiInfo.label}</span>
-            </div>
-          )}
+
 
           {/* Layers button */}
           <button ref={layerBtnRef} onClick={openLayerPanel}
