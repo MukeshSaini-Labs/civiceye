@@ -333,18 +333,18 @@ export default function MapComponent({ headerActions }: MapComponentProps = {}) 
   if (isLoading) return <div className="w-full h-full bg-[#020408] flex flex-col items-center justify-center text-teal-400 font-bold gap-3"><Loader2 className="w-8 h-8 animate-spin" /><span className="animate-pulse tracking-widest text-sm uppercase">Initializing Tactical Grid...</span></div>;
 
   const LayerPanelContent = () => (
-    <div className="space-y-2 sm:space-y-3">
+    <div className="space-y-1 sm:space-y-2">
       {/* Map Type */}
       <div>
-        <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1 sm:mb-1.5">Map Type</p>
-        <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+        <p className="text-[7px] sm:text-[9px] text-slate-500 uppercase tracking-widest font-bold mb-0.5">Map Type</p>
+        <div className="grid grid-cols-2 gap-1 sm:gap-1.5">
           {(Object.keys(MAP_LAYERS) as Array<keyof typeof MAP_LAYERS>).map(key => (
             <button key={key} onClick={() => setMapType(key)}
-              className={`flex flex-col items-center gap-0.5 sm:gap-1 p-1.5 sm:p-2 rounded-lg sm:rounded-xl border text-[9px] sm:text-xs font-bold transition-all ${mapType === key ? 'border-teal-500 bg-teal-500/10 text-teal-300 shadow-[0_0_15px_rgba(20,184,166,0.15)]' : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/30 hover:text-white'}`}>
-              {key === 'default' && <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
-              {key === 'satellite' && <Satellite className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
-              {key === 'hybrid' && <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
-              {key === 'terrain' && <Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+              className={`flex flex-col items-center gap-0.5 p-1 rounded-md sm:rounded-lg border-[0.5px] text-[7px] sm:text-[9px] font-bold transition-all ${mapType === key ? 'border-teal-500 bg-teal-500/10 text-teal-300 shadow-[0_0_10px_rgba(20,184,166,0.15)]' : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/30 hover:text-white'}`}>
+              {key === 'default' && <Globe className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />}
+              {key === 'satellite' && <Satellite className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />}
+              {key === 'hybrid' && <Eye className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />}
+              {key === 'terrain' && <Activity className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />}
               {MAP_LAYERS[key].name}
             </button>
           ))}
@@ -352,28 +352,28 @@ export default function MapComponent({ headerActions }: MapComponentProps = {}) 
       </div>
       {/* Overlays */}
       <div>
-        <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1 sm:mb-1.5">Live Overlays</p>
-        <div className="flex flex-col gap-1 sm:gap-1.5">
+        <p className="text-[7px] sm:text-[9px] text-slate-500 uppercase tracking-widest font-bold mb-0.5">Live Overlays</p>
+        <div className="flex flex-col gap-0.5">
           {(Object.keys(OVERLAYS) as Array<keyof typeof OVERLAYS>).map(key => (
             <button key={key} onClick={() => setActiveOverlay(prev => prev === key ? null : key)}
-              className={`flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border text-[10px] sm:text-xs font-bold transition-all ${activeOverlay === key ? 'border-teal-500 bg-teal-500/10 text-teal-300' : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/30 hover:text-white'}`}>
+              className={`flex items-center justify-between px-1.5 py-1 rounded-md sm:rounded-lg border-[0.5px] text-[8px] sm:text-[10px] font-bold transition-all ${activeOverlay === key ? 'border-teal-500 bg-teal-500/10 text-teal-300' : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/30 hover:text-white'}`}>
               <span>{OVERLAYS[key].name}</span>
-              <span className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all ${activeOverlay === key ? 'bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.8)]' : 'bg-slate-600'}`} />
+              <span className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full transition-all ${activeOverlay === key ? 'bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.8)]' : 'bg-slate-600'}`} />
             </button>
           ))}
         </div>
       </div>
       {/* AQI Detail */}
       {aqi && aqiInfo && (
-        <div className={`p-2.5 rounded-xl border space-y-1.5 ${aqiInfo.bg}`}>
-          <p className={`text-[10px] uppercase tracking-widest font-bold ${aqiInfo.text}`}>Air Quality — {aqiInfo.label}</p>
-          <div className="w-full bg-black/30 rounded-full h-1.5">
-            <div className="h-1.5 rounded-full transition-all duration-700" style={{ width: `${Math.min(aqi.aqi / 3, 100)}%`, background: aqiInfo.color }} />
+        <div className={`p-1.5 rounded-md sm:rounded-lg border-[0.5px] space-y-1 ${aqiInfo.bg}`}>
+          <p className={`text-[7px] sm:text-[9px] uppercase tracking-widest font-bold ${aqiInfo.text}`}>Air Quality — {aqiInfo.label}</p>
+          <div className="w-full bg-black/30 rounded-full h-1">
+            <div className="h-1 rounded-full transition-all duration-700" style={{ width: `${Math.min(aqi.aqi / 3, 100)}%`, background: aqiInfo.color }} />
           </div>
-          <div className="grid grid-cols-3 gap-1 text-center pt-1">
-            <div><p className="text-[8px] text-slate-400 uppercase font-mono">PM2.5</p><p className={`text-[11px] font-bold ${aqiInfo.text}`}>{aqi.pm25} µg</p></div>
-            <div><p className="text-[8px] text-slate-400 uppercase font-mono">PM10</p><p className={`text-[11px] font-bold ${aqiInfo.text}`}>{aqi.pm10} µg</p></div>
-            <div><p className="text-[8px] text-slate-400 uppercase font-mono">NO₂</p><p className={`text-[11px] font-bold ${aqiInfo.text}`}>{aqi.no2} µg</p></div>
+          <div className="grid grid-cols-3 gap-1 text-center pt-0.5">
+            <div><p className="text-[6px] text-slate-400 uppercase font-mono">PM2.5</p><p className={`text-[8px] sm:text-[10px] font-bold ${aqiInfo.text}`}>{aqi.pm25} µg</p></div>
+            <div><p className="text-[6px] text-slate-400 uppercase font-mono">PM10</p><p className={`text-[8px] sm:text-[10px] font-bold ${aqiInfo.text}`}>{aqi.pm10} µg</p></div>
+            <div><p className="text-[6px] text-slate-400 uppercase font-mono">NO₂</p><p className={`text-[8px] sm:text-[10px] font-bold ${aqiInfo.text}`}>{aqi.no2} µg</p></div>
           </div>
         </div>
       )}
@@ -395,7 +395,7 @@ export default function MapComponent({ headerActions }: MapComponentProps = {}) 
           <div className="fixed inset-0 bg-transparent z-[9998]" onClick={() => setShowNavPanel(false)} />
           <div
             ref={navPanelRef}
-            className="absolute top-[60px] sm:top-[72px] left-4 right-4 sm:left-auto sm:right-4 z-[9999] max-w-[calc(100vw-32px)] sm:w-80 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-3 sm:p-4"
+            className="absolute top-[55px] sm:top-[72px] left-3 right-3 sm:left-auto sm:right-4 z-[9999] max-w-[calc(100vw-24px)] sm:w-80 max-h-[250px] sm:max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c]/95 backdrop-blur-md border border-teal-500/30 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.8)] p-2 sm:p-4"
           >
             <NavigationOverlay 
               currentLocation={userLocation || defaultCenter} 
@@ -414,7 +414,7 @@ export default function MapComponent({ headerActions }: MapComponentProps = {}) 
           <div className="fixed inset-0 bg-transparent z-[9998]" onClick={() => setShowLayerPanel(false)} />
           <div
             ref={layerPanelRef}
-            className="absolute top-[60px] sm:top-[72px] left-4 right-4 sm:left-auto sm:right-4 z-[9999] max-w-[calc(100vw-32px)] sm:w-72 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c] border border-white/10 rounded-2xl shadow-2xl p-3 sm:p-4"
+            className="absolute top-[55px] sm:top-[72px] left-3 right-3 sm:left-auto sm:right-4 z-[9999] max-w-[calc(100vw-24px)] sm:w-64 max-h-[250px] sm:max-h-[350px] overflow-y-auto scrollbar-thin scrollbar-thumb-teal-500/30 scrollbar-track-transparent bg-[#0a0f1c]/95 backdrop-blur-md border border-teal-500/30 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.8)] p-2 sm:p-4"
           >
             <LayerPanelContent />
           </div>
