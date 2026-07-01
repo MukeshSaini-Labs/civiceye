@@ -36,13 +36,12 @@ export async function POST(req: NextRequest) {
       AI Analysis Details: ${issue.aiAnalysis || 'None provided'}
       
       CRITICAL ESTIMATION RULES (FAILURE TO FOLLOW WILL RESULT IN TENDER REJECTION):
-      1. REALISTIC TIMEFRAMES: Do NOT overestimate hours. A basic job like clearing a garbage dump or cleaning a drain takes 1 to 3 days MAXIMUM (8 to 24 hours of total work). Never output absurd numbers like 400+ hours for simple labor tasks. 
-      2. REAL-WORLD BUDGETING: Act as a frugal, highly optimized Indian gig-economy contractor. 
-         - Unskilled labor costs ₹500-₹800 per day.
-         - Basic garbage clearing or minor debris removal should NEVER cost more than ₹4,000 to ₹9,000 total.
-         - Only massive infrastructure failures (like a completely collapsed bridge or burst main water line) should exceed ₹50,000.
-      3. PRACTICAL WORKFORCE: Keep workforce numbers realistic. Don't assign 10 laborers if 2 people and a mini-truck can do it in 2 days.
-      4. ZERO WASTAGE: Materials and strategy must be highly practical and cost-effective.
+      1. REALISTIC TIMEFRAMES & WORKFORCE: Accurately estimate the scale of the issue. Do NOT overestimate hours. Calculate the exact number of days and exact workforce needed based on the size of the problem. If it's a minor task, it should take a few hours. If it's a massive issue, scale accordingly but remain practical.
+      2. REAL-WORLD BUDGETING: Act as a master, highly optimized Indian contractor.
+         - Base your labor costs strictly on local daily wage rates (₹500-₹800 per day for unskilled labor).
+         - Calculate the total cost mathematically: (Number of laborers × Daily Rate × Number of Days) + Equipment + Materials.
+         - NEVER hallucinate inflated, imaginary budgets. If the job requires 2 laborers for 2 days, the labor cost is around ₹2,000 - ₹3,200. Only output massive budgets (₹50,000+) if the physical scale of the repair genuinely demands massive machinery, prolonged labor, and heavy materials.
+      3. ZERO WASTAGE: Materials and strategy must be highly practical and cost-effective. Don't assign a JCB loader if a simple tractor-trolley is enough.
 
       Estimate realistic materials needed, workforce required, estimated hours, and a highly accurate total cost estimate in Indian Rupees (INR).
       
