@@ -36,11 +36,12 @@ export async function POST(req: NextRequest) {
       AI Analysis Details: ${issue.aiAnalysis || 'None provided'}
       
       CRITICAL ESTIMATION RULES (FAILURE TO FOLLOW WILL RESULT IN TENDER REJECTION):
-      1. REALISTIC TIMEFRAMES & WORKFORCE: Accurately estimate the scale of the issue. Do NOT overestimate hours. Calculate the exact number of days and exact workforce needed based on the size of the problem. If it's a minor task, it should take a few hours. If it's a massive issue, scale accordingly but remain practical.
-      2. REAL-WORLD BUDGETING: Act as a master, highly optimized Indian contractor.
+      1. REALISTIC TIMEFRAMES & WORKFORCE: Accurately estimate the scale of the issue. Do NOT overestimate hours. Note that a standard project day is 8 hours. If a job takes 3 days, that is 24 hours total project time. Do NOT output absurd numbers like 400+ hours.
+      2. REAL-WORLD BUDGETING & CHAIN OF THOUGHT: Act as a master, highly optimized Indian contractor.
          - Base your labor costs strictly on local daily wage rates (₹500-₹800 per day for unskilled labor).
-         - Calculate the total cost mathematically: (Number of laborers × Daily Rate × Number of Days) + Equipment + Materials.
-         - NEVER hallucinate inflated, imaginary budgets. If the job requires 2 laborers for 2 days, the labor cost is around ₹2,000 - ₹3,200. Only output massive budgets (₹50,000+) if the physical scale of the repair genuinely demands massive machinery, prolonged labor, and heavy materials.
+         - You MUST use the 'costCalculationReasoning' field to explicitly write out your mathematical calculation before providing the final budget. 
+         - Example Reasoning: "4 laborers for 3 days at ₹600/day = ₹7,200. 1 JCB for 1 day = ₹4,000. Total = ₹11,200."
+         - NEVER hallucinate inflated, imaginary budgets. Calculate based purely on your reasoning.
       3. ZERO WASTAGE: Materials and strategy must be highly practical and cost-effective. Don't assign a JCB loader if a simple tractor-trolley is enough.
 
       Estimate realistic materials needed, workforce required, estimated hours, and a highly accurate total cost estimate in Indian Rupees (INR).
@@ -52,13 +53,14 @@ export async function POST(req: NextRequest) {
       model: 'gemini-2.5-flash',
       contents: [{ role: 'user', parts: [{ text: promptText }] }],
       config: {
-        temperature: 0.3,
+        temperature: 0.1,
         responseMimeType: 'application/json',
         responseSchema: {
           type: Type.OBJECT,
           properties: {
             projectTitle: { type: Type.STRING },
             contractorType: { type: Type.STRING },
+            costCalculationReasoning: { type: Type.STRING, description: "Detailed mathematical breakdown of the cost." },
             estimatedHours: { type: Type.NUMBER },
             estimatedCostINR: { type: Type.NUMBER },
             materialsNeeded: {
@@ -75,7 +77,7 @@ export async function POST(req: NextRequest) {
               items: { type: Type.STRING }
             }
           },
-          required: ["projectTitle", "contractorType", "estimatedHours", "estimatedCostINR", "materialsNeeded", "workforceRequired", "repairStrategy", "riskFactors"]
+          required: ["projectTitle", "contractorType", "costCalculationReasoning", "estimatedHours", "estimatedCostINR", "materialsNeeded", "workforceRequired", "repairStrategy", "riskFactors"]
         }
       }
     });

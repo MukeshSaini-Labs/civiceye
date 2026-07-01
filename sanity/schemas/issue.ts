@@ -180,6 +180,7 @@ export const issue = defineType({
       fields: [
         defineField({ name: 'projectTitle', type: 'string' }),
         defineField({ name: 'contractorType', type: 'string' }),
+        defineField({ name: 'costCalculationReasoning', type: 'text', title: 'Cost Calculation Reasoning (AI)' }),
         defineField({ name: 'estimatedHours', type: 'string' }),
         defineField({ name: 'estimatedCostINR', type: 'number' }),
         defineField({ name: 'materialsNeeded', type: 'array', of: [{ type: 'string' }] }),

@@ -99,6 +99,17 @@ export default function TenderGenerator({ issueId, issueStatus, issueImageUrl, i
               <p className="text-slate-400 text-sm">{tender.repairStrategy}</p>
             </div>
 
+            {tender.costCalculationReasoning && (
+              <div className="bg-[#0f172a]/80 backdrop-blur border border-teal-500/20 rounded-xl p-4">
+                <div className="text-[10px] text-teal-400 uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
+                  <Activity className="w-3 h-3" /> AI Cost Calculation Reasoning
+                </div>
+                <div className="text-sm font-medium text-slate-300 italic leading-relaxed">
+                  "{tender.costCalculationReasoning}"
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-[#0f172a]/80 backdrop-blur border border-cyan-500/20 rounded-xl p-4">
                 <HardHat className="w-5 h-5 text-cyan-400 mb-2" />
