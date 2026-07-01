@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { FileText, Loader2, Zap, Settings, HardHat, IndianRupee, Activity, CheckCircle } from 'lucide-react';
 import ContractorBidding from './ContractorBidding';
 
-export default function TenderGenerator({ issueId, issueStatus, issueImageUrl, initialBounty, resolutionData }: { issueId: string, issueStatus?: string, issueImageUrl?: string, initialBounty?: any, resolutionData?: any }) {
+export default function TenderGenerator({ issueId, issueStatus, issueImageUrl, initialBounty, resolutionData, existingTender, issueEstimatedBudget }: { issueId: string, issueStatus?: string, issueImageUrl?: string, initialBounty?: any, resolutionData?: any, existingTender?: any, issueEstimatedBudget?: number }) {
   const [loading, setLoading] = useState(false);
-  const [tender, setTender] = useState<any>(initialBounty?.tenderBlueprint || null);
+  const [tender, setTender] = useState<any>(existingTender || initialBounty?.tenderBlueprint || null);
   const [bountyInfo, setBountyInfo] = useState<any>(initialBounty || null);
   const [bountyLoading, setBountyLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -17,7 +17,7 @@ export default function TenderGenerator({ issueId, issueStatus, issueImageUrl, i
       const res = await fetch('/api/bounty/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ issueId, tender }),
+        body: JSON.stringify({ issueId, tender, estimatedBudget: issueEstimatedBudget || tender?.estimatedCostINR }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to post bounty');
@@ -41,6 +41,8 @@ export default function TenderGenerator({ issueId, issueStatus, issueImageUrl, i
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to generate tender');
       setTender(data.tender);
+      // Wait for React to re-render, but ideally reload the page to get fresh data from server
+      window.location.reload();
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -111,7 +113,7 @@ export default function TenderGenerator({ issueId, issueStatus, issueImageUrl, i
               <div className="bg-[#0f172a]/80 backdrop-blur border border-emerald-500/30 rounded-xl p-4 col-span-2">
                 <IndianRupee className="w-5 h-5 text-emerald-400 mb-2" />
                 <div className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Estimated Budget</div>
-                <div className="text-2xl font-black text-emerald-400">₹{tender.estimatedCostINR?.toLocaleString('en-IN')}</div>
+                <div className="text-2xl font-black text-emerald-400">₹{(issueEstimatedBudget || tender.estimatedCostINR)?.toLocaleString('en-IN')}</div>
               </div>
             </div>
 

@@ -10,10 +10,12 @@ const ai = new GoogleGenAI({
 
 export async function POST(req: NextRequest) {
   try {
-    const { issueId, tender } = await req.json();
+    const { issueId, tender, estimatedBudget } = await req.json();
 
-    if (!issueId || !tender || !tender.estimatedCostINR) {
-      return NextResponse.json({ error: 'Missing issueId or tender details' }, { status: 400 });
+    const amount = estimatedBudget || tender?.estimatedCostINR;
+
+    if (!issueId || !amount) {
+      return NextResponse.json({ error: 'Missing issueId or estimated budget details' }, { status: 400 });
     }
 
     // 1. Fetch issue from Sanity
@@ -27,21 +29,15 @@ export async function POST(req: NextRequest) {
     // Check if bounty already exists for this issue
     let existingBounty = await adminClient.fetch(`*[_type == "bounty" && references($issueId)][0]`, { issueId });
     if (existingBounty) {
-      // If it exists but is missing the tenderBlueprint (e.g. from an older version), patch it!
-      if (!existingBounty.tenderBlueprint) {
+      // Sync the bounty amount in case it was edited in Sanity Studio on the issue side
+      if (existingBounty.bountyAmount !== amount) {
         await adminClient.patch(existingBounty._id).set({
-          tenderBlueprint: tender,
-          bountyAmount: tender.estimatedCostINR // Sync old amount with the AI generated amount
+          bountyAmount: amount 
         }).commit();
-        
-        existingBounty.tenderBlueprint = tender;
-        existingBounty.bountyAmount = tender.estimatedCostINR;
+        existingBounty.bountyAmount = amount;
       }
       return NextResponse.json({ success: true, bounty: existingBounty, isExisting: true });
     }
-
-    // Use the estimated cost directly from the Gemini generated tender
-    const amount = tender.estimatedCostINR;
 
     // 3. Create Bounty Document in Sanity
     const newBounty = await adminClient.create({
@@ -51,7 +47,6 @@ export async function POST(req: NextRequest) {
         _ref: issueId,
       },
       bountyAmount: amount,
-      tenderBlueprint: tender, // Save the entire AI generated blueprint permanently
       status: 'Open',
     });
 

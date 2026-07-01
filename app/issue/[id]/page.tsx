@@ -22,7 +22,7 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
     "resolutionImageUrl": resolutionImage.asset->url,
     speechTranscript,
     aiAnalysis, verificationCount, reporterId,
-    resolvedAt, resolutionNote
+    resolvedAt, resolutionNote, tenderBlueprint, estimatedBudget
   }`;
   const issue = await client.fetch(query, { id }, { next: { revalidate: 0 } });
 
@@ -292,7 +292,15 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
               </div>
               
               {/* Tender Generator Component */}
-              <TenderGenerator issueId={issue._id} issueStatus={effectiveIssueStatus} issueImageUrl={issue.originalImageUrl} initialBounty={bounty} resolutionData={resolutionData} />
+              <TenderGenerator 
+                issueId={issue._id} 
+                issueStatus={effectiveIssueStatus} 
+                issueImageUrl={issue.originalImageUrl} 
+                initialBounty={bounty} 
+                resolutionData={resolutionData} 
+                existingTender={issue.tenderBlueprint}
+                issueEstimatedBudget={issue.estimatedBudget}
+              />
             </div>
             
             {/* Resolution Pending State */}

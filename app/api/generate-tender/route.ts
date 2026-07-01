@@ -83,6 +83,12 @@ export async function POST(req: NextRequest) {
     const output = response.text || '{}';
     const parsedData = JSON.parse(output);
 
+    // 3. Save the blueprint directly to the issue schema
+    await adminClient.patch(issueId).set({
+      tenderBlueprint: parsedData,
+      estimatedBudget: parsedData.estimatedCostINR
+    }).commit();
+
     return NextResponse.json({ success: true, tender: parsedData });
   } catch (error: any) {
     console.error('Tender Generation Error:', error);
