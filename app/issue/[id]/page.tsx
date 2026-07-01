@@ -68,7 +68,11 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
   const step3Active = ['In Progress', 'In Review', 'Resolved'].includes(issue.status) || acceptedBid || resolutionData;
   const step4Active = issue.status === 'Resolved' || (resolutionData && resolutionData.status === 'Verified');
   const progressWidth = step4Active ? '100%' : step3Active ? '75%' : step2Active ? '50%' : '25%';
-  const effectiveIssueStatus = step4Active ? 'Resolved' : (issue.adminApproval === 'Accepted' && issue.status === 'Reported') ? 'Verified' : issue.status;
+  const effectiveIssueStatus = step4Active ? 'Resolved' : 
+                               ['In Review'].includes(issue.status) ? 'In Review' :
+                               step3Active ? 'In Progress' : 
+                               (issue.adminApproval === 'Accepted' && issue.status === 'Reported') ? 'Verified' : 
+                               issue.status;
 
   return (
     <div className="min-h-screen bg-[#020408] text-white pt-24 pb-20 px-4">
@@ -93,7 +97,7 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
               </span>
               <span className={`px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider ${
                 effectiveIssueStatus === 'Resolved' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' :
-                effectiveIssueStatus === 'In Review' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
+                (effectiveIssueStatus === 'In Review' || effectiveIssueStatus === 'In Progress') ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
                 'bg-blue-500/20 text-blue-400 border-blue-500/30'
               } border`}>
                 {effectiveIssueStatus}
