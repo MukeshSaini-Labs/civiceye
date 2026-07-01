@@ -14,7 +14,7 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
   const { id } = await params;
   // ⚠️ Explicitly exclude PII — reporterEmail and reporterPhone are NEVER sent to the client
   const query = `*[_type == "issue" && _id == $id][0] {
-    _id, _createdAt, title, category, severity, triageTier, status,
+    _id, _createdAt, title, category, severity, triageTier, status, adminApproval,
     location, city, state, country, latitude, longitude,
     "originalImageUrl": originalImage.asset->url,
     "originalVideoUrl": originalVideo.asset->url,
@@ -64,11 +64,11 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
   const severityColor = severityColors[severityLevel as keyof typeof severityColors];
 
   // Robust Timeline Logic
-  const step2Active = ['Verified', 'In Progress', 'In Review', 'Resolved'].includes(issue.status) || acceptedBid || resolutionData;
+  const step2Active = issue.adminApproval === 'Accepted' || ['Verified', 'In Progress', 'In Review', 'Resolved'].includes(issue.status) || acceptedBid || resolutionData;
   const step3Active = ['In Progress', 'In Review', 'Resolved'].includes(issue.status) || acceptedBid || resolutionData;
   const step4Active = issue.status === 'Resolved' || (resolutionData && resolutionData.status === 'Verified');
   const progressWidth = step4Active ? '100%' : step3Active ? '75%' : step2Active ? '50%' : '25%';
-  const effectiveIssueStatus = step4Active ? 'Resolved' : issue.status;
+  const effectiveIssueStatus = step4Active ? 'Resolved' : (issue.adminApproval === 'Accepted' && issue.status === 'Reported') ? 'Verified' : issue.status;
 
   return (
     <div className="min-h-screen bg-[#020408] text-white pt-24 pb-20 px-4">
