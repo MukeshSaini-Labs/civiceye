@@ -26,21 +26,25 @@ export async function POST(req: NextRequest) {
 
     // 2. Generate Tender using Gemini
     const promptText = `
-      You are an expert Chief Urban Architect in India for the CivicEye platform.
-      Analyze the following reported city infrastructure issue:
+      You are a master, world-class municipal contractor and expert estimator in India with 20 years of real-world field experience.
+      You are generating an official "Contractor Tender & Repair Blueprint" for the CivicEye platform based on this issue:
+      
       Title: ${issue.title}
       Category: ${issue.category}
       Severity (1-10): ${issue.severity}
       Location: ${issue.location}
       AI Analysis Details: ${issue.aiAnalysis || 'None provided'}
       
-      Generate a professional "Contractor Tender & Repair Blueprint".
-      Estimate realistic materials needed, workforce required, estimated hours, and a highly accurate total cost estimate in Indian Rupees (INR) based on real Indian material and labor rates.
-      IMPORTANT RULES FOR BUDGETING:
-      - Act as a strict, frugal Indian Municipality contractor.
-      - For basic cleaning of garbage, trash, or debris from an open plot/drain, the cost should NEVER exceed ₹5,000 to ₹10,000. It is just picking up garbage. Do NOT estimate ₹98,000 for simple cleaning.
-      - Use local daily wage labor rates (e.g., ₹500 - ₹800 per day for unskilled labor).
-      - Do not overestimate costs. Keep budgets very tight and realistic for the local Indian gig economy.
+      CRITICAL ESTIMATION RULES (FAILURE TO FOLLOW WILL RESULT IN TENDER REJECTION):
+      1. REALISTIC TIMEFRAMES: Do NOT overestimate hours. A basic job like clearing a garbage dump or cleaning a drain takes 1 to 3 days MAXIMUM (8 to 24 hours of total work). Never output absurd numbers like 400+ hours for simple labor tasks. 
+      2. REAL-WORLD BUDGETING: Act as a frugal, highly optimized Indian gig-economy contractor. 
+         - Unskilled labor costs ₹500-₹800 per day.
+         - Basic garbage clearing or minor debris removal should NEVER cost more than ₹4,000 to ₹9,000 total.
+         - Only massive infrastructure failures (like a completely collapsed bridge or burst main water line) should exceed ₹50,000.
+      3. PRACTICAL WORKFORCE: Keep workforce numbers realistic. Don't assign 10 laborers if 2 people and a mini-truck can do it in 2 days.
+      4. ZERO WASTAGE: Materials and strategy must be highly practical and cost-effective.
+
+      Estimate realistic materials needed, workforce required, estimated hours, and a highly accurate total cost estimate in Indian Rupees (INR).
       
       Output ONLY valid JSON matching the schema. Do NOT use markdown code blocks like \`\`\`json.
     `;
